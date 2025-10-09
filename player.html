@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Piclean Editor</title>
+    <link rel="stylesheet" href="player.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="theme-dark">
+    <a
+      href="/"
+      class="home-button"
+      style="position: fixed; top: 1rem; left: 1rem; z-index: 1000"
+    >
+      <span
+        class="icon-text"
+        style="display: inline-flex; align-items: center; gap: 0.5rem"
+      >
+        <span class="icon" style="display: flex; align-items: center">
+          <img
+            src="favicon.ico"
+            style="
+              width: 1.5rem;
+              height: auto;
+              line-height: 1.5rem;
+              margin-right: 0.25rem;
+            "
+          />
+          <span>Home</span>
+        </span>
+      </span>
+    </a>
+    <div id="loading">
+      <div class="loader"></div>
+    </div>
+    <div id="info" style="display: none"></div>
+    <div
+      id="main"
+      style="display: none; margin-top: 7vh; margin-bottom: auto"
+    ></div>
+    <div id="sidebar" style="display: none">
+      <form id="selector"></form>
+    </div>
+    <script src="player.js"></script>
+  </body>
+</html>
