@@ -49,7 +49,6 @@
 body.theme-dark {
   background: linear-gradient(180deg, var(--bg), #041021);
   color: var(--text);
-  min-height: 100vh;
   margin: 0;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
@@ -203,4 +202,11 @@ a, .accent-blue {
 }
 :checked + label {
   border: 3px solid #febe15;
+}
+input[type=range][orient=vertical] {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    appearance: slider-vertical;
+    width: 16px;
+    vertical-align: bottom;
 }

@@ -20,7 +20,7 @@ function loadDiscover() {
 }
 // loads the hot and new panels
 function loadSort(type, targetElem) {
-    fetch(backend + `/search?page=1&licenses=1111&imt=1&sort=${type}&type=3&lang=en`)
+    fetch(backend + `/search?sort=${type}`)
         .then(response => response.json())
         .then(data => {
             var panelhtml = ''
@@ -30,6 +30,6 @@ function loadSort(type, targetElem) {
             document.getElementById(targetElem).innerHTML = panelhtml;
         });
 }
-loadSort('1', 'hot')
-loadSort('2', 'new')
+loadSort('1', 'new')
+loadSort('2', 'hot')
 loadDiscover();

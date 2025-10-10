@@ -2,10 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Piclean - Discover</title>
+    <title>Piclean - Search</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
     <link
       rel="stylesheet"
@@ -18,28 +22,135 @@
     </style>
   </head>
   <body>
-    <a
-      href="/"
-      class="home-button"
-      style="position: fixed; top: 1rem; left: 1rem; z-index: 1000"
-    >
-      <span class="icon-text">
-        <span class="icon">
-          <img src="favicon.ico" />
-        </span>
-        <span>Home</span>
-      </span>
-    </a>
-    <div class="hero is-dark mb-4 is-fullheight">
+    <div class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
+          <span class="ml-2 has-text-weight-bold">Piclean</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <span>Search</span>
+          </span></a
+        >
+        <a class="navbar-item" href="discovery.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-th-large"></i>
+            </span>
+            <span>Discovery</span>
+          </span></a
+        >
+        <a class="navbar-item" href="progress.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>About</span>
+          </span></a
+        >
+      </div>
+    </div>
+    <div class="hero is-dark mb-4">
       <div class="hero-body">
         <div class="container has-text-centered">
           <section class="section">
             <div class="content">
-              <p class="is-size-1 has-text-weight-bold">Sorry, the search function isn't finished yet. Come back soon!</p>
+              <p class="is-size-1 has-text-weight-bold">Search</p>
             </div>
           </section>
         </div>
       </div>
     </div>
+    <div class="field">
+      <div class="control" style="margin: 0 20px">
+        <input
+          class="input is-medium"
+          type="text"
+          id="searchInput"
+          placeholder="Search for image makers..."
+        />
+      </div>
+      <div class="filters mt-3 mx-3">
+        <button
+          class="button is-success is-left mr-3"
+          id="searchButton"
+          onclick="search()"
+          role="button"
+        >
+          Search
+        </button>
+        <div class="select is-info">
+          <select id="sort">
+            <option value="1">Sort: Updated</option>
+            <option value="2">Sort: Hot Now (world)</option>
+            <option value="5">Sort: Hot Now (Japan)</option>
+            <option value="3">Sort: Newest</option>
+            <option value="4">Sort: Oldest</option>
+          </select>
+        </div>
+        <div class="select is-info" style="margin-left: 10px">
+          <select id="type">
+            <option value="3">Search: Full text</option>
+            <option value="1">Search: Tags- Fuzzy</option>
+            <option value="2">Search: Tags- Exact</option>
+          </select>
+        </div>
+        <div class="select is-info" style="margin-left: 10px">
+          <select id="cs">
+            <option value="">Canvas Size: Any</option>
+            <option value="1">Canvas Size: 1:1</option>
+            <option value="100">Canvas Size: 16:9</option>
+          </select>
+        </div>
+        <div class="select is-info" style="margin-left: 10px">
+          <select id="lang">
+            <option value="en">Language: English</option>
+            <option value="ja">Language: Japanese</option>
+          </select>
+        </div>
+
+        <div class="select is-info" style="margin-left: 10px">
+          <select id="imt">
+            <option value="">Image Type: Any</option>
+            <option value="1">Image Type: Dress Up</option>
+            <option value="10">Image Type: Random</option>
+          </select>
+        </div>
+      </div>
+      <div class="checkboxes mt-2 ml-6" id="licenses">
+        <label class="label">Required Licenses:</label>
+        <label class="checkbox">
+          <input type="checkbox" id="license1" />
+          Personal Use
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="license2" />
+          Commercial Use
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="license3" />
+          Modification Allowed
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="license4" />
+          NonCommercial Use
+        </label>
+      </div>
+    </div>
+    <div class="container">
+      <div class="fixed-grid has-5-cols">
+        <div class="grid" id="imageContainer"></div>
+      </div>
+      <div id="loading" class="has-text-centered" style="display: none">
+        <button class="button is-loading is-white is-large"></button>
+      </div>
+    </div>
+    <script src="search.js"></script>
   </body>
 </html>

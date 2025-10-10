@@ -8,33 +8,95 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
     />
-    <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      * {
+        font-family: "Quicksand", sans-serif;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
-    <a
-      href="/"
-      class="home-button"
-      style="position: fixed; top: 1rem; left: 1rem; z-index: 1000"
-    >
-      <span class="icon-text">
-        <span class="icon">
-          <img src="favicon.ico" />
-        </span>
-        <span>Home</span>
-      </span>
-    </a>
+    <div class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
+          <span class="ml-2 has-text-weight-bold">Piclean</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <span>Search</span>
+          </span></a
+        >
+        <a class="navbar-item" href="discovery.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-th-large"></i>
+            </span>
+            <span>Discovery</span>
+          </span></a
+        >
+        <a class="navbar-item" href="progress.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>About</span>
+          </span></a
+        >
+      </div>
+    </div>
     <section class="hero">
       <div class="hero-body">
         <div class="has-text-centered container">
-          <h1 class="title">The Piclean Project</h1>
-          <h2 class="subtitle">For the Archival & Betterment of Picrew</h2>
+          <h1 class="title">The Piclean Project - About</h1>
+          <h2 class="subtitle">Cleaning up Picrew</h2>
         </div>
       </div>
     </section>
+    <div class="box mx-6">
+      <section class="section">
+        <div class="container">
+          <h1 class="title">What is Piclean?</h1>
+          <div class="content">
+            <p>
+              Piclean is an open-source project aimed at improving the Picrew
+              experience and archiving Picrew's data for preservation.
+              The website you are currently on is the frontend for the Piclean API.
+            </p>
+          </div>
+          <h1 class="title">Why make it though?</h1>
+          <div class="content">
+            <p>
+              Picrew is a fantastic platform for creating and viewing avatars and
+              characters, but it has some limitations. Picrew has recently been introducing many intrusive ads
+              on its platform. This is kind of scummy, considering the users who
+              contribute content on Picrew don't get paid.
+            </p>
+            <p>
+              Additionally, Picrew has opted out of the Internet Archive's
+              Wayback Machine, which means that if Picrew were to go down, all of
+              its content would be lost forever. This is a significant concern,
+              as Picrew hosts a vast amount of user-generated content that is not
+              backed up anywhere else.
+            </p>
+        </div>
+      </section>
+    </div>
     <div class="box mx-6">
       <section class="section">
         <div class="container">
@@ -94,7 +156,7 @@
                 >
                 <p class="has-text-grey">
                   The scraper for collecting Picrew data into databases.
-                  <strong class="has-text-warning">Not available yet</strong>
+                  <strong class="has-text-warning">Not public yet</strong>
                 </p>
               </li>
             </ul>
@@ -135,6 +197,9 @@
           <strong>Note:</strong> This project is not affiliated with Picrew or
           its creators. It is an independent effort to archive and preserve
           Picrew content.
+        </p>
+        <p>
+          Made with ❤️ and <a href="https://bulma.io" target="_blank">Bulma</a> for the Picrew community!
         </p>
       </div>
     </footer>

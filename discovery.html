@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Piclean - Discovery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      * {
+        font-family: "Quicksand", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
+          <span class="ml-2 has-text-weight-bold">Piclean</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <span>Search</span>
+          </span></a
+        >
+        <a class="navbar-item" href="discovery.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-th-large"></i>
+            </span>
+            <span>Discovery</span>
+          </span></a
+        >
+        <a class="navbar-item" href="progress.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>About</span>
+          </span></a
+        >
+      </div>
+    </div>
+    <div class="hero is-dark mb-4">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <section class="section">
+            <div class="content">
+              <p class="is-size-1 has-text-weight-bold">Discovery</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="fixed-grid has-5-cols">
+        <div class="grid" id="imageContainer"></div>
+      </div>
+      <div id="loading" class="has-text-centered" style="display: none">
+        <button class="button is-loading is-white is-large"></button>
+      </div>
+      <script src="discover.js"></script>
+    </div>
+  </body>
+</html>

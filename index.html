@@ -14,13 +14,47 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
     />
-    <style>
-      * {
-        font-family: "Quicksand", sans-serif;
-      }
-    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
   </head>
   <body>
+    <div class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
+          <span class="ml-2 has-text-weight-bold">Piclean</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <span>Search</span>
+          </span></a
+        >
+        <a class="navbar-item" href="discovery.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-th-large"></i>
+            </span>
+            <span>Discovery</span>
+          </span></a
+        >
+        <a class="navbar-item" href="progress.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>About</span>
+          </span></a
+        >
+      </div>
+    </div>
     <div class="hero is-dark">
       <div class="hero-body">
         <div class="container has-text-centered">
@@ -35,7 +69,7 @@
     </div>
     <section class="section">
       <div class="box">
-        <h2 class="title is-4 has-text-centered">Discover</h2>
+        <h2 class="title is-4 has-text-centered">Discovery</h2>
         <div class="fixed-grid has-4-cols">
           <div class="grid" id="discover-panel">
             <div class="cell">
@@ -63,13 +97,13 @@
               <img src="#" class="image is-square" width="200" height="200" />
             </div>
           </div>
-          <a href="discover.html"
+          <a href="discovery.html"
             ><button class="button is-medium is-fullwidth">See More</button></a
           >
         </div>
       </div>
       <div class="box">
-        <h2 class="title is-4 has-text-centered">Updated</h2>
+        <h2 class="title is-4 has-text-centered">Recently Updated</h2>
         <div class="fixed-grid has-4-cols">
           <div class="grid" id="new">
             <div class="cell">
@@ -96,16 +130,14 @@
             <div class="cell">
               <img src="#" class="image is-square" width="200" height="200" />
             </div>
-            <a href="search.html?s=2"
-              ><button class="button is-medium is-fullwidth">
-                See More
-              </button></a
-            >
           </div>
         </div>
+        <a href="search.html?s=1"
+          ><button class="button is-medium is-fullwidth">See More</button></a
+        >
       </div>
       <div class="box">
-        <h2 class="title is-4 has-text-centered">Hot</h2>
+        <h2 class="title is-4 has-text-centered">Hot now (worldwide)</h2>
         <div class="fixed-grid has-4-cols">
           <div class="grid" id="hot">
             <div class="cell">
@@ -133,27 +165,36 @@
               <img src="#" class="image is-square" width="200" height="200" />
             </div>
           </div>
-          <a href="search.html?s=1"
+          <a href="search.html?s=2"
             ><button class="button is-medium is-fullwidth">See More</button></a
           >
         </div>
       </div>
       <div class="box">
         <h2 class="content has-text-centered is-size-5">
-          You can also load a maker directly from the normal site by simply
+          You can also view any page directly from the normal site by simply
           replacing picrew.me with piclean.us!
         </h2>
       </div>
     </section>
     <script src="index.js"></script>
     <footer class="footer">
-      <p>Part of the Piclean Project & made with ❤️ by Cbass92</p>
-      <a href="progress.html">Project info and progress</a>
-      <p class="has-text-info mt-4">
-        <strong>Note:</strong> This project is not affiliated with Picrew or its
-        creators. It is an independent effort to archive and preserve Picrew
-        content.
-      </p>
+      <div class="content has-text-centered">
+        <p>
+          <strong>The Piclean Project</strong> by
+          <a href="https://github.com/sebastian-92">Cbass92</a>.
+        </p>
+        <p class="has-text-info mt-4">
+          <strong>Note:</strong> This project is not affiliated with Picrew or
+          its creators. It is an independent effort to archive and preserve
+          Picrew content.
+        </p>
+        <p>
+          Made with ❤️ and
+          <a href="https://bulma.io" target="_blank">Bulma</a> for the Picrew
+          community!
+        </p>
+      </div>
     </footer>
   </body>
 </html>

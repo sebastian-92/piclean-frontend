@@ -24,6 +24,7 @@ function loadById(id) {
     .then((data) => {
       const info = document.getElementById("info");
       // this constructs the info box popup
+      document.title = `Piclean - ${data.imageMakerInfo.title}`;
       info.innerHTML = `
         <h1 class='title'>${data.imageMakerInfo.title}</h1>
         <img class='desc_thumb' src='${
@@ -71,7 +72,7 @@ function loadById(id) {
       for (const i of data.config.pList) {
         if (i.isMenu) {
           // menu items are displayed in picrew
-          newselector += `<div class="radio-section"><img src='https://cdn.picrew.me${
+          newselector += `<div class="radio-section"><img loading="lazy" src='https://cdn.picrew.me${
             i.thumbUrl
           }' class="section-thumb"><br><p>${
             i.pNm
@@ -90,7 +91,7 @@ function loadById(id) {
               i.lyrs[0]
             }" value="${
               j.itmId
-            }"></input><img width="50px" height="50px" src='https://cdn.picrew.me${
+            }"></input><img loading="lazy" width="50px" height="50px" src='https://cdn.picrew.me${
               j.thumbUrl ?? ""
             }'></label>`;
           }
@@ -105,7 +106,7 @@ function loadById(id) {
           for (const j of i.items) {
             newselector += `<input type="radio" name="${i.lyrs[0]}" value="${
               j.itmId
-            }" checked></input><label><img width="50px" height="50px" src='https://cdn.picrew.me${
+            }" checked></input><label><img loading="lazy" width="50px" height="50px" src='https://cdn.picrew.me${
               j.thumbUrl ?? ""
             }'></label>`;
           }
