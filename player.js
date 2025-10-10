@@ -30,7 +30,7 @@ function loadById(id) {
         <img class='desc_thumb' src='${
           data.imageMakerInfo.icon_url
         }' style="max-width:90%;max-height:300px;margin:10px 0;border-radius:10px;" />
-        <p class='author_credit'>By ${data.imageMakerInfo.creator_name}</p>
+        <a class='author_credit' href="creator.html?id=${data.imageMakerInfo.creator_id}">By ${data.imageMakerInfo.creator_name}</a>
         <p class='description'>${data.imageMakerInfo.description_html}</p>
         <h3 class='license_header'>License</h3>
         <table class='license_table'>

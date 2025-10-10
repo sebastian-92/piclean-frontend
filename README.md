@@ -19,4 +19,4 @@
     - [ ] Movement
     - [ ] Multi-layer parts bug fix
     - [ ] Rewrite css w/ Bulma for consistency
-- [ ] Author Profiles
+- [x] Creator Profiles
