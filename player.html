@@ -11,39 +11,56 @@
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
       rel="stylesheet"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
   </head>
-  <body class="theme-dark">
-    <a
-      href="/"
-      class="home-button"
-      style="position: fixed; top: 1rem; left: 1rem; z-index: 1000"
-    >
-      <span
-        class="icon-text"
-        style="display: inline-flex; align-items: center; gap: 0.5rem"
-      >
-        <span class="icon" style="display: flex; align-items: center">
-          <img
-            src="favicon.ico"
-            style="
-              width: 1.5rem;
-              height: auto;
-              line-height: 1.5rem;
-              margin-right: 0.25rem;
-            "
-          />
-          <span>Home</span>
-        </span>
-      </span>
-    </a>
-    <div id="loading">
-      <div class="loader"></div>
+  <body>
+    <div class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
+          <span class="ml-2 has-text-weight-bold">Piclean</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <span>Search</span>
+          </span></a
+        >
+        <a class="navbar-item" href="discovery.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-th-large"></i>
+            </span>
+            <span>Discovery</span>
+          </span></a
+        >
+        <a class="navbar-item" href="progress.html"
+          ><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>About</span>
+          </span></a
+        >
+      </div>
     </div>
-    <div id="info" style="display: none"></div>
-    <div
-      id="main"
-      style="display: none; margin-top: 7vh; margin-bottom: auto"
-    ></div>
+    <div id="loading">
+      <div class="loader-spinny"></div>
+    </div>
+    <div id="info" class="box container" style="display: none"></div>
+    <div id="main" style="display: none"></div>
     <div id="sidebar" style="display: none">
       <form id="selector"></form>
     </div>

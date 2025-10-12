@@ -30,8 +30,10 @@ function loadById(id) {
         <img class='desc_thumb' src='${
           data.imageMakerInfo.icon_url
         }' style="max-width:90%;max-height:300px;margin:10px 0;border-radius:10px;" />
-        <a class='author_credit' href="creator.html?id=${data.imageMakerInfo.creator_id}">By ${data.imageMakerInfo.creator_name}</a>
-        <p class='description'>${data.imageMakerInfo.description_html}</p>
+        <a class='author_credit' href="creator.html?id=${
+          data.imageMakerInfo.creator_id
+        }">By ${data.imageMakerInfo.creator_name}</a>
+        <p class='content'>${data.imageMakerInfo.description_html}</p>
         <h3 class='license_header'>License</h3>
         <table class='license_table'>
           <tr>
@@ -40,25 +42,25 @@ function loadById(id) {
           </tr>
           <tr>
         <td>Personal Use</td>
-        <td><input onclick="return false" type="checkbox" ${
+        <td><input class="checkbox" onclick="return false" type="checkbox" ${
           data.imageMakerInfo.can_personal_use ? "checked" : ""
         }></td>
           </tr>
           <tr>
         <td>Non-Commercial Use</td>
-        <td><input onclick="return false" type="checkbox" ${
+        <td><input class="checkbox" onclick="return false" type="checkbox" ${
           data.imageMakerInfo.can_non_commercial_use ? "checked" : ""
         }></td>
           </tr>
           <tr>
         <td>Commercial Use</td>
-        <td><input onclick="return false" type="checkbox" ${
+        <td><input class="checkbox" onclick="return false" type="checkbox" ${
           data.imageMakerInfo.can_commercial_use ? "checked" : ""
         }></td>
           </tr>
           <tr>
         <td>Derivative Works</td>
-        <td><input onclick="return false" type="checkbox" ${
+        <td><input class="checkbox" onclick="return false" type="checkbox" ${
           data.imageMakerInfo.can_derivative_works ? "checked" : ""
         }></td>
           </tr>
@@ -76,23 +78,30 @@ function loadById(id) {
             i.thumbUrl
           }' class="section-thumb"><br><p>${
             i.pNm
-          }</p><button onclick="deselectRadios('${
+          }</p><button class="button is-info is-small" onclick="deselectRadios('${
             i.lyrs[0]
           }')" type="button">Clear radios</button><br>
-          <input type="range" min="0" max="${
-            i.colorCnt - 1
-          }" value="0" class="slider" id="${i.lyrs[0]}_slider" name="${
+          <input type="range" min="0" max="${i.colorCnt - 1}" value="0" id="${
             i.lyrs[0]
-          }_slider"><br>`;
+          }_slider" name="${
+            i.lyrs[0]
+          }_slider"><br><label> Rotate (deg): <input class="input" type="number" value="0" id="${
+            i.lyrs[0]
+          }_r" value="0" style="width: 50px; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${
+            i.lyrs[0]
+          }_x" value="0" style="width: 50px; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${
+            i.lyrs[0]
+          }_y" value="0" style="width: 50px; margin-left: 10px;"></label><br>`;
           // the slider changes the color/version of the item, equivalent to the color selector in picrew
+          // the x and y number inputs change the position of the item on the canvas
           for (const j of i.items) {
             // add radio selector to choose item
             newselector += `<label><input type="radio" name="${
               i.lyrs[0]
             }" value="${
               j.itmId
-            }"></input><img loading="lazy" width="50px" height="50px" src='https://cdn.picrew.me${
-              j.thumbUrl ?? ""
+            }"></input><img class="image is-50x50" src='https://cdn.picrew.me${
+              j.thumbUrl ?? "https://placehold.co/50x50"
             }'></label>`;
           }
           newselector += `</div>`;
@@ -102,7 +111,13 @@ function loadById(id) {
             i.colorCnt - 1
           }" value="0" class="slider" id="${i.lyrs[0]}_slider" name="${
             i.lyrs[0]
-          }_slider">`;
+          }_slider"><input type="number" value="0" id="${
+            i.lyrs[0]
+          }_r" value="0" style="width: 50px; margin-left: 10px;"><input  type="number" id="${
+            i.lyrs[0]
+          }_x" value="0" style="width: 50px; margin-left: 10px;"><input class="input" type="number" id="${
+            i.lyrs[0]
+          }_y" value="0" style="width: 50px; margin-left: 10px;">`;
           for (const j of i.items) {
             newselector += `<input type="radio" name="${i.lyrs[0]}" value="${
               j.itmId
@@ -123,6 +138,24 @@ function loadById(id) {
       // and set the data for later use
       window.data = data;
     });
+}
+// credit to https://stackoverflow.com/questions/32468969
+function draw(context, image, x, y, degrees) {
+  context.translate(x + image.width / 2, y + image.height / 2);
+  context.rotate((degrees * Math.PI) / 180);
+  context.drawImage(
+    image,
+    0,
+    0,
+    image.width,
+    image.height,
+    -image.width / 2,
+    -image.height / 2,
+    image.width,
+    image.height
+  );
+  context.rotate((-degrees * Math.PI) / 180);
+  context.translate(-x - image.width / 2, -y - image.height / 2);
 }
 async function render() {
   // draws the image on the canvas based on the selected options
@@ -147,11 +180,18 @@ async function render() {
       const imageKey = Object.values(
         Object.values(window.data.commonImages[String(selectedValue)])[0]
       )[sliderValue];
+      // get position and rotation values
+      const xVal = document.getElementById(lyrKey + "_x").value;
+      const yVal = document.getElementById(lyrKey + "_y").value;
+      const rotation = document.getElementById(lyrKey + "_r")?.value;
       img.src = `https://cdn.picrew.me${imageKey.url}`;
       await new Promise((resolve) => {
         // wait for image to load before drawing, and make sure we draw in order
         img.onload = function () {
-          ctx.drawImage(img, 0, 0);
+          // don't rotate if not needed, makes things faster
+          if (rotation != 0)
+            draw(ctx, img, xVal, yVal * -1, rotation);
+          else ctx.drawImage(img, xVal, yVal * -1);
           resolve();
         };
       });
@@ -160,8 +200,9 @@ async function render() {
 }
 if (!makerId) {
   console.error("No ID found :( custom loading coming soon!");
+} else {
+  loadById(makerId);
 }
-loadById(makerId);
 document.getElementById("selector").addEventListener("change", (event) => {
   // render when selected options change
   render();

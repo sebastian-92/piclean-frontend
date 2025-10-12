@@ -6,17 +6,19 @@
 ## TODO
 - [x] Search
     - [x] Basic Functionality
-    - [x] Filtering
-    - [x] Infinite Scroll
+    - [x] [compatibility] Filtering
+    - [x] [Extra] Infinite Scroll
 - [x] Discovery
     - [x] Basic Functionality
-    - [x] Infinite Scroll
+    - [x] [compatibility] Infinite Scroll
 - [x] Image Maker 
     - [x] Basic Functionality
-    - [x] Color Switching
-        - [ ] Change from slider
-    - [ ] Rotation
-    - [ ] Movement
-    - [ ] Multi-layer parts bug fix
-    - [ ] Rewrite css w/ Bulma for consistency
-- [x] Creator Profiles
+    - [x] [compatibility] Color Switching
+        - [ ] [visual] Change via boxes
+    - [x] [compatibility] Rotation
+    - [x] [compatibility] XY Movement
+    - [ ] [compatibility] Multi-layer parts fix
+    - [x] [visual] Rewrite css w/ Bulma for consistency
+    - [ ] [Extra] Custom Loading
+- [x] [compatibility] Creator Profiles
+- [ ] [compatibility] License display on browsing for search & profiles

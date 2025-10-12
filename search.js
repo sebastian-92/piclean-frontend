@@ -37,6 +37,7 @@ function getQueryString() {
   params.set("imt", document.getElementById("imt").value);
   params.set("type", document.getElementById("type").value);
   params.set("lang", document.getElementById("lang").value);
+  // license is expressed as four binary digits
   let license = "";
   for (var i = 1; i < 5; i++) {
     license += document.getElementById("license" + i).checked ? "1" : "0";
