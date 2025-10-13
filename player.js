@@ -116,13 +116,12 @@ function loadById(id) {
           // the x and y number inputs change the position of the item on the canvas
           for (const j of i.items) {
             // add radio selector to choose item
-            newselector += `<label><input type="radio" real-id="${
-              i.pId
-            }-images" name="${i.lyrs[0]}" value="${
-              j.itmId
-            }"></input><img class="image is-50x50" src='https://cdn.picrew.me${
-              j.thumbUrl ?? "https://placehold.co/50x50"
-            }'></label>`;
+            newselector += `<div style="display: inline-block; width: 54px; margin: 2px; text-align: center;">
+              <label>
+              <input type="radio" real-id="${i.pId}-images" name="${i.lyrs[0]}" value="${j.itmId}">
+              <img class="image is-50x50" style="display: block; margin: 0 auto;" src='https://cdn.picrew.me${j.thumbUrl ?? "/placehold.co/50x50"}'>
+              </label>
+            </div>`;
           }
           newselector += `</div>`;
         } else {
