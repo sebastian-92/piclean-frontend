@@ -95,65 +95,38 @@ function loadById(id) {
 <button class="button is-link" id="export_button" onclick='exportData()'>Export Slot</button>`;
       let newselector = "";
       for (const i of data.config.pList) {
-        if (i.isMenu) {
-          // menu items are displayed in picrew
-          newselector += `<div class="radio-section"><img loading="lazy" src='https://cdn.picrew.me${i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
-          var k = 0;
-          newselector += `<div class="mt-3" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">`;
-          for (const j of data.config.cpList[i.cpId]) {
-            newselector += `<label style="display: inline-flex; align-items: center; margin-right: 4px;"><input class="radio" type="radio" name="${
-              i.lyrs[0]
-            }_slider" value="${k}" style="margin-right:2px;"${
-              k == 0 ? " checked" : ""
-            }/><svg width="24" height="24" style="vertical-align: middle;"><rect style="fill:${
-              j.cd
-            };" width="24" height="24" /></svg></label>`;
-            k++;
-          }
-          newselector += `</div>`;
-          newselector += `<br><label> Rotate (deg): <input class="input mb-2" type="number" value="0" id="${i.lyrs[0]}_r" name="${i.lyrs[0]}_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${i.lyrs[0]}_x" name="${i.lyrs[0]}_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${i.lyrs[0]}_y" name="${i.lyrs[0]}_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
-          // the slider changes the color/version of the item, equivalent to the color selector in picrew
-          // the x and y number inputs change the position of the item on the canvas
-          for (const j of i.items) {
-            // add radio selector to choose item
-            newselector += `<div style="display: inline-block; width: 54px; margin: 2px; text-align: center;">
+        // menu items are displayed in picrew
+        newselector += `<div class="radio-section"><img loading="lazy" src='https://cdn.picrew.me${i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
+        var k = 0;
+        newselector += `<div class="mt-3" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">`;
+        for (const j of data.config.cpList[i.cpId]) {
+          newselector += `<label style="display: inline-flex; align-items: center; margin-right: 4px;"><input class="radio" type="radio" name="${
+            i.lyrs[0]
+          }_slider" value="${k}" style="margin-right:2px;"${
+            k == 0 ? " checked" : ""
+          }/><svg width="24" height="24" style="vertical-align: middle;"><rect style="fill:${
+            j.cd
+          };" width="24" height="24" /></svg></label>`;
+          k++;
+        }
+        newselector += `</div>`;
+        newselector += `<br><label> Rotate (deg): <input class="input mb-2" type="number" value="0" id="${i.lyrs[0]}_r" name="${i.lyrs[0]}_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${i.lyrs[0]}_x" name="${i.lyrs[0]}_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${i.lyrs[0]}_y" name="${i.lyrs[0]}_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
+        // the slider changes the color/version of the item, equivalent to the color selector in picrew
+        // the x and y number inputs change the position of the item on the canvas
+        for (const j of i.items) {
+          // add radio selector to choose item
+          newselector += `<div style="display: inline-block; width: 54px; margin: 2px; text-align: center;">
               <label>
-              <input type="radio" real-id="${i.pId}-images" name="${i.lyrs[0]}" value="${j.itmId}">
-              <img class="image is-50x50" style="display: block; margin: 0 auto;" src='https://cdn.picrew.me${j.thumbUrl ?? "/placehold.co/50x50"}'>
+              <input type="radio" real-id="${i.pId}-images" name="${
+            i.lyrs[0]
+          }" value="${j.itmId}">
+              <img class="image is-50x50" style="display: block; margin: 0 auto;" src='https://cdn.picrew.me${
+                j.thumbUrl ?? "/placehold.co/50x50"
+              }'>
               </label>
             </div>`;
-          }
-          newselector += `</div>`;
-        } else {
-          // Non menu items are hidden
-          newselector += `<div style="display:none;"><input type="range" min="0" max="${
-            i.colorCnt - 1
-          }" value="0" class="slider" id="${i.lyrs[0]}_slider" name="${
-            i.lyrs[0]
-          }_slider"><input type="number" value="0" id="${
-            i.lyrs[0]
-          }_r" value="0" name="${
-            i.lyrs[0]
-          }_r" style="width: 4em; margin-left: 10px;"><input  type="number" id="${
-            i.lyrs[0]
-          }_x" value="0" name="${
-            i.lyrs[0]
-          }_x" style="width: 4em; margin-left: 10px;"><input class="input" type="number" id="${
-            i.lyrs[0]
-          }_y" value="0" name="${
-            i.lyrs[0]
-          }_y" style="width: 4em; margin-left: 10px;">`;
-          for (const j of i.items) {
-            newselector += `<input type="radio" name="${i.lyrs[0]}" value="${
-              j.itmId
-            }" real-id="${
-              i.pId
-            }-images" checked></input><label><img loading="lazy" width="50px" height="50px" src='https://cdn.picrew.me${
-              j.thumbUrl ?? ""
-            }'></label>`;
-          }
-          newselector += `</div>`;
         }
+        newselector += `</div>`;
       }
       // display all the stuff and set content
       document.getElementById("sidebar").style.display = "block";
