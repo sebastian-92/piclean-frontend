@@ -116,9 +116,9 @@ function loadById(id) {
           // the x and y number inputs change the position of the item on the canvas
           for (const j of i.items) {
             // add radio selector to choose item
-            newselector += `<label><input type="radio" name="${
-              i.lyrs[0]
-            }" value="${
+            newselector += `<label><input type="radio" real-id="${
+              i.pId
+            }-images" name="${i.lyrs[0]}" value="${
               j.itmId
             }"></input><img class="image is-50x50" src='https://cdn.picrew.me${
               j.thumbUrl ?? "https://placehold.co/50x50"
@@ -147,7 +147,9 @@ function loadById(id) {
           for (const j of i.items) {
             newselector += `<input type="radio" name="${i.lyrs[0]}" value="${
               j.itmId
-            }" checked></input><label><img loading="lazy" width="50px" height="50px" src='https://cdn.picrew.me${
+            }" real-id="${
+              i.pId
+            }-images" checked></input><label><img loading="lazy" width="50px" height="50px" src='https://cdn.picrew.me${
               j.thumbUrl ?? ""
             }'></label>`;
           }
@@ -181,9 +183,23 @@ function loadById(id) {
         };
         reader.readAsText(file);
       };
-
+      // fill default values according to zeroConf
+      for (const [key, val] of Object.entries(data.config.zeroConf)) {
+        if (val.itmId == 0) continue;
+        document
+          .querySelectorAll('[real-id="' + key + '-images"]')
+          .forEach((element) => {
+            if (element.type === "radio") {
+              if (element.value === String(val.itmId)) {
+                element.checked = true;
+                return;
+              }
+            }
+          });
+      }
       info.style.display = "flex";
       document.getElementById("loading").style.display = "none";
+      render();
     });
 }
 // credit to https://stackoverflow.com/questions/32468969 for this function
@@ -225,23 +241,28 @@ async function render() {
       const img = new Image();
       // get image for selected url
       const sliderValue = form.get(lyrKey + "_slider");
-      const imageKey = Object.values(
-        Object.values(window.data.commonImages[String(selectedValue)])[0]
-      )[sliderValue];
+      let imgUrls = [];
+      Object.values(window.data.commonImages[String(selectedValue)]).forEach(
+        (element) => {
+          imgUrls.push(Object.values(element)[sliderValue].url);
+        }
+      );
       // get position and rotation values
       const xVal = form.get(String(lyrKey) + "_x");
       const yVal = form.get(String(lyrKey) + "_y");
       const rotation = form.get(String(lyrKey) + "_r");
-      img.src = `https://cdn.picrew.me${imageKey.url}`;
-      await new Promise((resolve) => {
-        // wait for image to load before drawing, and make sure we draw in order
-        img.onload = function () {
-          // don't rotate if not needed, makes things faster
-          if (rotation != 0) draw(ctx, img, xVal, yVal * -1, rotation);
-          else ctx.drawImage(img, xVal, yVal * -1);
-          resolve();
-        };
-      });
+      for (const imageKey of imgUrls) {
+        img.src = cdn + imageKey;
+        await new Promise((resolve) => {
+          // wait for image to load before drawing, and make sure we draw in order
+          img.onload = function () {
+            // don't rotate if not needed, makes things faster
+            if (rotation != 0) draw(ctx, img, xVal, yVal * -1, rotation);
+            else ctx.drawImage(img, xVal, yVal * -1);
+            resolve();
+          };
+        });
+      }
     }
   }
 }
