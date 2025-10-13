@@ -19,6 +19,11 @@
     - [x] [compatibility] XY Movement
     - [ ] [compatibility] Multi-layer parts fix
     - [x] [visual] Rewrite css w/ Bulma for consistency
-    - [ ] [Extra] Custom Loading
+    - [ ] [extra] Custom Loading Import
 - [x] [compatibility] Creator Profiles
 - [ ] [compatibility] License display on browsing for search & profiles
+- [x] [compatibility] Local progress saving
+    - [x] [extra] Multiple Save Slots
+    - [x] [extra] Import Saves
+    - [x] [extra] Export Saves
+- [ ] [compatibility] Local Favorites

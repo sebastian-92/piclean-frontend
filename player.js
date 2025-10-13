@@ -69,7 +69,29 @@ function loadById(id) {
       // construct main canvas
       let newmain = `
         <canvas id="c" width="${data.config.w}" height="${data.config.h}" style="border:1px solid #000000;"></canvas>
-        `;
+        <br><button
+        class="button is-success"
+        id="loadButton"
+        onclick="loadLocal(document.getElementById('slot').value)"
+      >
+        Load Slot</button
+      ><button
+        id="saveButton"
+        class="button is-primary"
+        onclick="saveLocal(document.getElementById('slot').value)"
+      >
+        Save Slot</button
+      ><input
+        class="input"
+        type="number"
+        id="slot"
+        min="1"
+        max="99"
+        value="1"
+        style="width: 4em;"
+      /><button class="button is-info" id="import_button" type="button" onclick="document.getElementById('import-save').click()">Import Slot</button>
+        <input class="file-input" type="file" name="import-save" id="import-save" accept=".json" style="display:none;" />
+<button class="button is-link" id="export_button" onclick='exportData()'>Export Slot</button>`;
       let newselector = "";
       for (const i of data.config.pList) {
         if (i.isMenu) {
@@ -81,17 +103,23 @@ function loadById(id) {
           }</p><button class="button is-info is-small" onclick="deselectRadios('${
             i.lyrs[0]
           }')" type="button">Clear radios</button><br>
-          <input type="range" min="0" max="${i.colorCnt - 1}" value="0" id="${
-            i.lyrs[0]
-          }_slider" name="${
+          <input class="slider" type="range" min="0" max="${
+            i.colorCnt - 1
+          }" value="0" id="${i.lyrs[0]}_slider" name="${
             i.lyrs[0]
           }_slider"><br><label> Rotate (deg): <input class="input" type="number" value="0" id="${
             i.lyrs[0]
-          }_r" value="0" style="width: 50px; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${
+          }_r" name="${
             i.lyrs[0]
-          }_x" value="0" style="width: 50px; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${
+          }_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${
             i.lyrs[0]
-          }_y" value="0" style="width: 50px; margin-left: 10px;"></label><br>`;
+          }_x" name="${
+            i.lyrs[0]
+          }_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${
+            i.lyrs[0]
+          }_y" name="${
+            i.lyrs[0]
+          }_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
           // the slider changes the color/version of the item, equivalent to the color selector in picrew
           // the x and y number inputs change the position of the item on the canvas
           for (const j of i.items) {
@@ -113,11 +141,17 @@ function loadById(id) {
             i.lyrs[0]
           }_slider"><input type="number" value="0" id="${
             i.lyrs[0]
-          }_r" value="0" style="width: 50px; margin-left: 10px;"><input  type="number" id="${
+          }_r" value="0" name="${
             i.lyrs[0]
-          }_x" value="0" style="width: 50px; margin-left: 10px;"><input class="input" type="number" id="${
+          }_r" style="width: 4em; margin-left: 10px;"><input  type="number" id="${
             i.lyrs[0]
-          }_y" value="0" style="width: 50px; margin-left: 10px;">`;
+          }_x" value="0" name="${
+            i.lyrs[0]
+          }_x" style="width: 4em; margin-left: 10px;"><input class="input" type="number" id="${
+            i.lyrs[0]
+          }_y" value="0" name="${
+            i.lyrs[0]
+          }_y" style="width: 4em; margin-left: 10px;">`;
           for (const j of i.items) {
             newselector += `<input type="radio" name="${i.lyrs[0]}" value="${
               j.itmId
@@ -130,16 +164,40 @@ function loadById(id) {
       }
       // display all the stuff and set content
       document.getElementById("sidebar").style.display = "block";
-      document.getElementById("selector").innerHTML = newselector;
+      document.getElementById("selector").innerHTML =
+        newselector +
+        "<button onclick='document.getElementById(\"selector\").reset();render()' class='button is-danger is-small' type='button'>Reset All</button><br>";
       document.getElementById("main").innerHTML = newmain;
       document.getElementById("main").style.display = "block";
+      // import save function goes here because javascript was being stupid
+      document.getElementById("import-save").onchange = function () {
+        console.log("Importing save...");
+        const file = document.getElementById("import-save").files[0];
+        if (!file) {
+          return;
+        }
+        document.getElementById("import-save").value = "";
+        const reader = new FileReader();
+        reader.onload = function () {
+          try {
+            const importedData = JSON.parse(reader.result);
+            loadData(importedData);
+            render();
+          } catch (error) {
+            alert("Failed to import data: " + error.message);
+          }
+        };
+        reader.readAsText(file);
+      };
+
       info.style.display = "flex";
       document.getElementById("loading").style.display = "none";
       // and set the data for later use
       window.data = data;
     });
 }
-// credit to https://stackoverflow.com/questions/32468969
+// credit to https://stackoverflow.com/questions/32468969 for this function
+// draws an image on a canvas at an angle
 function draw(context, image, x, y, degrees) {
   context.translate(x + image.width / 2, y + image.height / 2);
   context.rotate((degrees * Math.PI) / 180);
@@ -157,6 +215,7 @@ function draw(context, image, x, y, degrees) {
   context.rotate((-degrees * Math.PI) / 180);
   context.translate(-x - image.width / 2, -y - image.height / 2);
 }
+// renders the images on the canvas based on the form data
 async function render() {
   // draws the image on the canvas based on the selected options
   const canvas = document.getElementById("c");
@@ -175,28 +234,76 @@ async function render() {
     if (selectedValue != null) {
       const img = new Image();
       // get image for selected url
-      const sliderValue = document.getElementsByName(lyrKey + "_slider")[0]
-        .value;
+      const sliderValue = form.get(lyrKey + "_slider");
       const imageKey = Object.values(
         Object.values(window.data.commonImages[String(selectedValue)])[0]
       )[sliderValue];
       // get position and rotation values
-      const xVal = document.getElementById(lyrKey + "_x").value;
-      const yVal = document.getElementById(lyrKey + "_y").value;
-      const rotation = document.getElementById(lyrKey + "_r")?.value;
+      const xVal = form.get(String(lyrKey) + "_x");
+      const yVal = form.get(String(lyrKey) + "_y");
+      const rotation = form.get(String(lyrKey) + "_r");
       img.src = `https://cdn.picrew.me${imageKey.url}`;
       await new Promise((resolve) => {
         // wait for image to load before drawing, and make sure we draw in order
         img.onload = function () {
           // don't rotate if not needed, makes things faster
-          if (rotation != 0)
-            draw(ctx, img, xVal, yVal * -1, rotation);
+          if (rotation != 0) draw(ctx, img, xVal, yVal * -1, rotation);
           else ctx.drawImage(img, xVal, yVal * -1);
           resolve();
         };
       });
     }
   }
+}
+function saveLocal(slot) {
+  const formData = new FormData(document.getElementById("selector"));
+  // save form data to local storage
+  saveData(JSON.stringify(Object.fromEntries(formData)), slot);
+}
+function loadLocal(slot) {
+  // parse data back into json
+  const data = JSON.parse(localStorage.getItem("formData_" + makerId + slot));
+  if (!data) return;
+  loadData(data);
+  // render the loaded form
+  render();
+}
+
+function saveData(data, slot) {
+  localStorage.setItem("formData_" + makerId + slot, data);
+}
+function loadData(data) {
+  document.getElementById("selector").reset(); // reset form first
+  // set form values from saved data
+  for (const [key, val] of Object.entries(data)) {
+    document.getElementsByName(key).forEach((element) => {
+      if (element.type === "radio") {
+        if (element.value === val) {
+          element.checked = true;
+        }
+      } else {
+        element.value = val;
+      }
+    });
+  }
+}
+function exportData() {
+  const slot = document.getElementById("slot").value;
+  console.log("Exporting slot", slot);
+  const data = localStorage.getItem("formData_" + makerId + slot);
+  if (!data) {
+    alert("No data in this slot!");
+    return;
+  }
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `piclean_save_${makerId}_slot${slot}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 if (!makerId) {
   console.error("No ID found :( custom loading coming soon!");
