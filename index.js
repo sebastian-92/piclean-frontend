@@ -27,9 +27,12 @@ function loadSort(type, targetElem) {
       data.results.slice(0, 8).forEach((item) => {
         panelhtml += `<a href="player.html?id=${item.id}">
         <div class="cell">
-            <img class="image is-square" width="200" height="200" src="${item.image}">
+            <img class="image is-square" width="200" height="200" src="${
+              item.image
+            }">
             <p>${item.title}</p>
             <p class="author_credit">By ${item.creator}</p>
+            <p class="licenses">${item.licenses.join(", ")}</p>
         </div>
       </a>`;
       });

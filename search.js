@@ -18,9 +18,12 @@ function renderImages(images) {
     imgDiv.innerHTML = `
       <a href="player.html?id=${image.id}">
         <div class="cell">
-            <img class="image is-square" width="200" height="200" src="${image.image}">
+            <img class="image is-square" width="200" height="200" src="${
+              image.image
+            }">
             <p>${image.title}</p>
             <p class="author_credit">By ${image.creator}</p>
+            <p class="licenses">${image.licenses.join(", ")}</p>
         </div>
       </a>
     `;

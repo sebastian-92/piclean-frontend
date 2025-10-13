@@ -22,6 +22,7 @@ function loadById(id) {
   fetch(backend + "/idata/" + String(id))
     .then((res) => res.json())
     .then((data) => {
+      window.data = data; // make data global for access in other functions
       const info = document.getElementById("info");
       // this constructs the info box popup
       document.title = `Piclean - ${data.imageMakerInfo.title}`;
@@ -96,30 +97,21 @@ function loadById(id) {
       for (const i of data.config.pList) {
         if (i.isMenu) {
           // menu items are displayed in picrew
-          newselector += `<div class="radio-section"><img loading="lazy" src='https://cdn.picrew.me${
-            i.thumbUrl
-          }' class="section-thumb"><br><p>${
-            i.pNm
-          }</p><button class="button is-info is-small" onclick="deselectRadios('${
-            i.lyrs[0]
-          }')" type="button">Clear radios</button><br>
-          <input class="slider" type="range" min="0" max="${
-            i.colorCnt - 1
-          }" value="0" id="${i.lyrs[0]}_slider" name="${
-            i.lyrs[0]
-          }_slider"><br><label> Rotate (deg): <input class="input" type="number" value="0" id="${
-            i.lyrs[0]
-          }_r" name="${
-            i.lyrs[0]
-          }_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${
-            i.lyrs[0]
-          }_x" name="${
-            i.lyrs[0]
-          }_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${
-            i.lyrs[0]
-          }_y" name="${
-            i.lyrs[0]
-          }_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
+          newselector += `<div class="radio-section"><img loading="lazy" src='https://cdn.picrew.me${i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
+          var k = 0;
+          newselector += `<div class="mt-3" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">`;
+          for (const j of data.config.cpList[i.cpId]) {
+            newselector += `<label style="display: inline-flex; align-items: center; margin-right: 4px;"><input class="radio" type="radio" name="${
+              i.lyrs[0]
+            }_slider" value="${k}" style="margin-right:2px;"${
+              k == 0 ? " checked" : ""
+            }/><svg width="24" height="24" style="vertical-align: middle;"><rect style="fill:${
+              j.cd
+            };" width="24" height="24" /></svg></label>`;
+            k++;
+          }
+          newselector += `</div>`;
+          newselector += `<br><label> Rotate (deg): <input class="input mb-2" type="number" value="0" id="${i.lyrs[0]}_r" name="${i.lyrs[0]}_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${i.lyrs[0]}_x" name="${i.lyrs[0]}_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${i.lyrs[0]}_y" name="${i.lyrs[0]}_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
           // the slider changes the color/version of the item, equivalent to the color selector in picrew
           // the x and y number inputs change the position of the item on the canvas
           for (const j of i.items) {
@@ -192,8 +184,6 @@ function loadById(id) {
 
       info.style.display = "flex";
       document.getElementById("loading").style.display = "none";
-      // and set the data for later use
-      window.data = data;
     });
 }
 // credit to https://stackoverflow.com/questions/32468969 for this function
