@@ -39,7 +39,8 @@
     - `Uncaught (in promise) TypeError: Cannot convert undefined or null to object
     at Object.values (<anonymous>)
     at render (player.js:245:14)`
-    - haven't seen on other image makers yet but let me know if it happens!
+    - same error on 2773995 w/ body
+    - let me know if it happens!
 
 
 ## LICENSE
