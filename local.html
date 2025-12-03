@@ -104,6 +104,35 @@
               }
             } else if (file.type == "application/zip" || file.name.endsWith(".zip")) {
               var zipBlob = file;
+              JSZip.loadAsync(zipBlob).then(async (zip) => {
+                const dataFile = zip.file("data.json");
+                if (dataFile) {
+                  // data.json file exists
+                } else {
+                  alert("data.json file not found in the zip.");
+                  return;
+                }
+                if (zip.folder(/e/).length > 0) {
+                  // Images folder exists
+                } else {
+                  alert("Warning: No images folder found in the zip. Images will attempt to load directly from picrew");
+                  zip.file("data.json").async("string").then((content) => {
+                    try {
+                      const data = JSON.parse(content);
+                      data.isLonely = true;
+                      const newZip = new JSZip();
+                      newZip.file("data.json", JSON.stringify(data));
+                      newZip.generateAsync({ type: "blob" }).then(async (newZipBlob) => {
+                        zipBlob = newZipBlob;
+                      });
+                    } catch (e) {
+                      alert("Invalid data.json file.");
+                      return;
+                    }
+                  });
+                }
+              });
+              
             } else {
               alert("Please upload a valid .zip or .json file.");
               return;

@@ -345,56 +345,86 @@ function saveAs(blob, filename) {
   link.click();
   document.body.removeChild(link);
 }
-function backupPicrew(jsonData) {
+async function backupPicrew(jsonData) {
   console.log("Backing up picrew...");
-  document.getElementById("backup_button").disabled = true;
-  document.getElementById("backup_button").innerText = "Backing up...";
-  var backupZip = new JSZip();
-  var fetchPromises = [];
+  const backupButton = document.getElementById("backup_button");
+  backupButton.disabled = true;
+  backupButton.innerText = "Backing up...";
 
+  const backupZip = new JSZip();
+  const urlSet = new Map(); // path -> url to avoid duplicates
+
+  // collect unique URLs/paths
   walk(jsonData, (str) => {
-    if (str.startsWith("/")) {
-      const url = cdn + str;
-      fetchPromises.push(
-        fetch(url)
-          .then(async (response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            const blob = await response.blob();
-            backupZip.file(str, blob);
-          })
-          .catch((error) => {
-            console.error("There has been a problem with your fetch operation:", error);
-          })
-      );
-    } else if (str.startsWith("https://cdn.picrew.me")) {
-      const url = str;
-      fetchPromises.push(
-        fetch(url)
-          .then(async (response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            const blob = await response.blob();
-            backupZip.file(url.replace("https://cdn.picrew.me", ""), blob);
-          })
-          .catch((error) => {
-            console.error("There has been a problem with your fetch operation:", error);
-          })
-      );
+    try {
+      if (typeof str !== "string") return;
+      if (str.startsWith("/")) {
+        const url = cdn + str;
+        // keep path as original str (with leading slash) to match previous behavior
+        if (!urlSet.has(str)) urlSet.set(str, url);
+      } else if (str.startsWith("https://cdn.picrew.me")) {
+        const path = str.replace("https://cdn.picrew.me", "");
+        if (!urlSet.has(path)) urlSet.set(path, str);
+      }
+    } catch (e) {
+      console.error("Error while collecting urls:", e);
     }
   });
 
-  Promise.all(fetchPromises).then(() => {
-    console.log("All files fetched, generating zip...");
-    backupZip.file("data.json", JSON.stringify(jsonData));
-    backupZip.generateAsync({ type: "blob" }).then(function (content) {
-      saveAs(content, `piclean_backup_${makerId}.zip`);
-      document.getElementById("backup_button").disabled = false;
-      document.getElementById("backup_button").innerText = "Backup Picrew";
+  const entries = Array.from(urlSet.entries()).map(([path, url]) => ({ path, url }));
+  const batchSize = 500; 
+  // I need to batch to avoid overwhelming the loser chrome users
+  // unnecessary on firefox but whatever
+
+  for (let i = 0; i < entries.length; i += batchSize) {
+    const batch = entries.slice(i, i + batchSize);
+    console.log(`Fetching batch ${Math.floor(i / batchSize) + 1} (${batch.length} files)...`);
+    const fetchPromises = batch.map(async ({ path, url }) => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+        const blob = await res.blob();
+        return { path, blob };
+      } catch (err) {
+        console.error("There has been a problem with your fetch operation:", err);
+        return { path, error: err };
+      }
     });
-  });
+
+    const results = await Promise.allSettled(fetchPromises);
+    // add successful fetches to the zip
+    for (const r of results) {
+      if (r.status === "fulfilled") {
+        const value = r.value;
+        if (value && !value.error) {
+          try {
+            backupZip.file(value.path, value.blob);
+          } catch (e) {
+            console.error("Failed to add file to zip:", e);
+          }
+        }
+      } else {
+        console.error("Fetch promise rejected:", r.reason);
+      }
+    }
+    // update button text to show progress
+    backupButton.innerText = `Backing up... (${Math.min(i + batchSize, entries.length)}/${entries.length})`;
+    // give the browser a moment to breathe
+    await new Promise((res) => setTimeout(res, 50));
+  }
+
+  try {
+    backupZip.file("data.json", JSON.stringify(jsonData));
+    const content = await backupZip.generateAsync({ type: "blob" });
+    console.log("Zip generated, starting download...");
+    saveAs(content, `piclean_backup_${makerId}.zip`);
+  } catch (e) {
+    console.error("Failed to generate/save zip:", e);
+    alert("Failed to generate backup: " + e.message);
+  } finally {
+    backupButton.disabled = false;
+    backupButton.innerText = "Backup Picrew";
+  }
 }
 function downloadJSON() {
   const dataStr = JSON.stringify(window.data);
