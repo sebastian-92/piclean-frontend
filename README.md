@@ -5,7 +5,6 @@
 ### see the about section on the [website](https://piclean.us/progress) for more information on this project
 
 ## TODO
-### 22/29 Complete
 - [ ] *Mobile Compatibility*
     - [ ] Image selection UI
     - [ ] Image Maker
@@ -34,10 +33,17 @@
     - [x] [extra] Import Saves
     - [x] [extra] Export Saves
 - [ ] [compatibility] Local Favorites
+- [ ] [extra] Favorites Import from Picrew
 - [x] [compatibility] Default config loading
+- [ ] [extra] Let user change backend easily
 
 ### Longer term TODO:
-- [ ] [extra] Custom Loading Import
+- [x] [extra] Custom Backups
+    - [x] Export ZIP
+    - [x] Export JSON
+    - [x] Import ZIP
+    - [x] Import JSON
+    - [x] Backup Management
 
 
 #### Known bugs

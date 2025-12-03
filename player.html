@@ -1,70 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Piclean Editor</title>
-    <link rel="stylesheet" href="player.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
-      rel="stylesheet"
-    />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="navbar">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
-          <span class="ml-2 has-text-weight-bold">Piclean</span>
-        </a>
-      </div>
-      <div class="navbar-end">
-        <a class="navbar-item" href="search.html"
-          ><span class="icon-text">
-            <span class="icon">
-              <i class="fas fa-search"></i>
-            </span>
-            <span>Search</span>
-          </span></a
-        >
-        <a class="navbar-item" href="discovery.html"
-          ><span class="icon-text">
-            <span class="icon">
-              <i class="fas fa-th-large"></i>
-            </span>
-            <span>Discovery</span>
-          </span></a
-        >
-        <a class="navbar-item" href="progress.html"
-          ><span class="icon-text">
-            <span class="icon">
-              <i class="fas fa-info-circle"></i>
-            </span>
-            <span>About</span>
-          </span></a
-        >
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piclean Editor</title>
+  <link rel="stylesheet" href="player.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
+        <span class="ml-2 has-text-weight-bold">Piclean</span>
+      </a>
     </div>
-    <div id="loading">
-      <div class="loader-spinny"></div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="search.html"><span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-search"></i>
+          </span>
+          <span>Search</span>
+        </span></a>
+      <a class="navbar-item" href="discovery.html"><span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-th-large"></i>
+          </span>
+          <span>Discovery</span>
+        </span></a>
+      <a class="navbar-item" href="progress.html"><span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-info-circle"></i>
+          </span>
+          <span>About</span>
+        </span></a>
     </div>
-    <div id="info" class="box container" style="display: none"></div>
-    <div id="main" style="display: none">
-    </div>
-    <div id="sidebar" style="display: none">
-      <form id="selector"></form>
-    </div>
-    <script src="player.js"></script>
-  </body>
+  </div>
+  <div id="loading">
+    <div class="loader-spinny"></div>
+  </div>
+  <div id="info" class="box container" style="display: none"></div>
+  <div id="main" style="display: none">
+  </div>
+  <div id="sidebar" style="display: none">
+    <form id="selector"></form>
+  </div>
+  <script src="scripts/localforage.min.js"></script>
+  <script src="scripts/zip-loader.min.js"></script>
+  <script src="scripts/jszip.min.js"></script>
+  <script src="player.js"></script>
+
+</body>
+
 </html>
