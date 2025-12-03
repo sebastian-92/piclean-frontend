@@ -48,8 +48,8 @@ function setupPicrew() {
   document.title = `Piclean - ${window.data.imageMakerInfo.title}`;
   info.innerHTML = `
         <h1 class='title'>${window.data.imageMakerInfo.title}</h1>
-        <img class='desc_thumb' src='${window.isBackup ? window.zipLoaderInstance.extractAsBlobUrl(window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", "" ), 'image/png') : window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", cdn)
-    }' style="max-width:90%;max-height:300px;margin:10px 0;border-radius:10px;" />
+        <img class='desc_thumb' src='${window.isBackup && window.data.imageMakerInfo.icon_url ? window.zipLoaderInstance.extractAsBlobUrl(window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", "" ), 'image/png') : window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", cdn)
+        }' style="max-width:90%;max-height:300px;margin:10px 0;border-radius:10px;" />
         <a class='author_credit' href="creator.html?id=${window.data.imageMakerInfo.creator_id
     }">By ${window.data.imageMakerInfo.creator_name}</a>
         <p class='content'>${window.data.imageMakerInfo.description_html}</p>
