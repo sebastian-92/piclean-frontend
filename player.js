@@ -43,6 +43,7 @@ function loadById(id) {
   });
 }
 function setupPicrew() {
+  try {
   const info = document.getElementById("info");
   // this constructs the info box popup
   document.title = `Piclean - ${window.data.imageMakerInfo.title}`;
@@ -185,6 +186,10 @@ function setupPicrew() {
   info.style.display = "flex";
   document.getElementById("loading").style.display = "none";
   render();
+  } catch (e) {
+    console.error("Error setting up picrew:", e);
+    alert("An error occurred while setting up the Picrew. "+e.message);
+  }
 }
 // credit to https://stackoverflow.com/questions/32468969 for this function
 // draws an image on a canvas at an angle
