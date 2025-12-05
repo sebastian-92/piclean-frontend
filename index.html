@@ -43,48 +43,81 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
-  </head>
+    <style>
+      * { box-sizing: border-box; font-family: "Quicksand", sans-serif; }
+      /* navbar: show only icons on narrow screens */
+      .navbar .icon-text .icon { font-size: 1.05rem; }
+      .navbar .icon-text .is-hidden-mobile { display: inline; }
+      @media (max-width: 640px) {
+        .navbar .icon-text .is-hidden-mobile { display: none; }
+        .navbar .navbar-item { padding: 0.45rem; }
+      }
+      /* responsive hero title */
+      .site-title { font-weight: 700; }
+      @media (min-width: 769px) { .site-title { font-size: 2.2rem; } }
+      @media (max-width: 768px) { .site-title { font-size: 1.2rem; } }
+      /* grid: responsive auto-fit, cap column max width to avoid overly tall squares */
+      .fixed-grid .grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 220px));
+        justify-content: center;
+      }
+      .fixed-grid .cell { background: #fff; padding: 0.5rem; border-radius: 6px; text-align:center; }
+      .fixed-grid .cell p { margin: 0.25rem 0; font-size: 0.9rem; }
+      /* responsive square thumbnail using aspect-ratio and max-height */
+      .responsive-thumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+        max-height: 220px;
+      }
+      .author_credit, .licenses { color:#666; font-size:0.75rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    </style>
+    </head>
   <body>
-  <div class="navbar">
+  <link rel="stylesheet" href="nav.css">
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
         <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
         <span class="ml-2 has-text-weight-bold">Piclean</span>
       </a>
+      <a role="button" class="navbar-burger" id="navToggle" aria-label="menu" aria-expanded="false" data-target="navMenu" title="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end">
-      <a class="navbar-item" href="search.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-search"></i>
-          </span>
-          <span>Search</span>
-        </span></a>
-      <a class="navbar-item" href="discovery.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-th-large"></i>
-          </span>
-          <span>Discovery</span>
-        </span></a>
-      <a class="navbar-item" href="local.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span>Load Backups</span>
-        </span></a>
-      <a class="navbar-item" href="progress.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          <span>About</span>
-        </span></a>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-search"></i></span>
+            <span class="">Search</span>
+          </span></a>
+        <a class="navbar-item" href="discovery.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-th-large"></i></span>
+            <span class="">Discovery</span>
+          </span></a>
+        <a class="navbar-item" href="local.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-upload"></i></span>
+            <span class="">Load Backups</span>
+          </span></a>
+        <a class="navbar-item" href="progress.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-info-circle"></i></span>
+            <span class="">About</span>
+          </span></a>
+      </div>
     </div>
-  </div>
+  </nav>
     <div class="hero is-dark">
       <div class="hero-body">
         <div class="container has-text-centered">
           <section class="section">
             <div class="content">
-              <p class="is-size-1 has-text-weight-bold">Piclean</p>
+              <p class="site-title has-text-weight-bold">Piclean</p>
               <p class="is-size-4">The open source Picrew client</p>
             </div>
           </section>
@@ -96,30 +129,14 @@
         <h2 class="title is-4 has-text-centered">Discovery</h2>
         <div class="fixed-grid has-4-cols">
           <div class="grid" id="discover-panel">
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
           </div>
           <a href="discovery.html"
             ><button class="button is-medium is-fullwidth">See More</button></a
@@ -130,30 +147,14 @@
         <h2 class="title is-4 has-text-centered">Recently Updated</h2>
         <div class="fixed-grid has-4-cols">
           <div class="grid" id="new">
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
           </div>
         </div>
         <a href="search.html?s=1"
@@ -164,30 +165,14 @@
         <h2 class="title is-4 has-text-centered">Hot now (worldwide)</h2>
         <div class="fixed-grid has-4-cols">
           <div class="grid" id="hot">
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
-            <div class="cell">
-              <img src="#" class="image is-square" width="200" height="200" />
-            </div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
+            <div class="cell"><img src="#" class="responsive-thumb" alt="placeholder"></div>
           </div>
           <a href="search.html?s=2"
             ><button class="button is-medium is-fullwidth">See More</button></a
@@ -201,6 +186,7 @@
         </h2>
       </div>
     </section>
+    <script src="nav.js" defer></script>
     <script src="index.js"></script>
     <footer class="footer">
       <div class="content has-text-centered">

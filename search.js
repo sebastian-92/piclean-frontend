@@ -11,23 +11,18 @@ const loadingIndicator = document.getElementById("loading");
 let page = 1;
 let isLoading = false;
 function renderImages(images) {
-  // render image cards
   images.forEach((image) => {
-    const imgDiv = document.createElement("div");
-    imgDiv.className = "cell";
-    imgDiv.innerHTML = `
+    const wrapper = document.createElement("div");
+    wrapper.className = "cell";
+    wrapper.innerHTML = `
       <a href="player.html?id=${image.id}">
-        <div class="cell">
-            <img class="image is-square" width="200" height="200" src="${
-              image.image
-            }">
-            <p>${image.title}</p>
-            <p class="author_credit">By ${image.creator}</p>
-            <p class="licenses">${image.licenses.join(", ")}</p>
-        </div>
+        <img class="responsive-thumb" src="${image.image}" alt="${image.title}">
       </a>
+      <p>${image.title}</p>
+      <p class="author_credit">By ${image.creator}</p>
+      <p class="licenses">${image.licenses.join(", ")}</p>
     `;
-    imageContainer.appendChild(imgDiv);
+    imageContainer.appendChild(wrapper);
   });
 }
 function getQueryString() {

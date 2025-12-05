@@ -1,0 +1,4 @@
+:root{--navbar-text:#222}
+.navbar .icon-text .icon{font-size:1.05rem; color: grey;}
+.navbar .icon-text .is-hidden-mobile{display:inline}
+

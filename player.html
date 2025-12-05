@@ -15,52 +15,54 @@
 </head>
 
 <body>
-  <div class="navbar">
+  <link rel="stylesheet" href="nav.css">
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
         <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
         <span class="ml-2 has-text-weight-bold">Piclean</span>
       </a>
+      <a role="button" class="navbar-burger" id="mobileMenuBtn"><i class="fa" style="font-size:1.05rem; color:blue;">Open Selector</i></a>
+      <a role="button" class="navbar-burger" id="navToggle" aria-label="menu" aria-expanded="false" data-target="navMenu" title="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end">
-      <a class="navbar-item" href="search.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-search"></i>
-          </span>
-          <span>Search</span>
-        </span></a>
-      <a class="navbar-item" href="discovery.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-th-large"></i>
-          </span>
-          <span>Discovery</span>
-        </span></a>
-      <a class="navbar-item" href="local.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span>Load Backups</span>
-        </span></a>
-      <a class="navbar-item" href="progress.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          <span>About</span>
-        </span></a>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-search"></i></span>
+            <span class="">Search</span>
+          </span></a>
+        <a class="navbar-item" href="discovery.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-th-large"></i></span>
+            <span class="">Discovery</span>
+          </span></a>
+        <a class="navbar-item" href="local.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-upload"></i></span>
+            <span class="">Load Backups</span>
+          </span></a>
+        <a class="navbar-item" href="progress.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-info-circle"></i></span>
+            <span class="">About</span>
+          </span></a>
+      </div>
     </div>
-  </div>
+  </nav>
   <div id="loading">
     <div class="loader-spinny"></div>
   </div>
   <div id="info" class="box container" style="display: none"></div>
   <div id="main" style="display: none">
   </div>
-  <div id="sidebar" style="display: none">
+  <div id="sidebar">
     <form id="selector"></form>
   </div>
   <script src="scripts/localforage.min.js"></script>
   <script src="scripts/zip-loader.min.js"></script>
   <script src="scripts/jszip.min.js"></script>
+  <script src="nav.js" defer></script>
   <script src="player.js"></script>
 
 </body>

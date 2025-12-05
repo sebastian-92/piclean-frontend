@@ -5,12 +5,11 @@
 ### see the about section on the [website](https://piclean.us/progress) for more information on this project
 
 ## TODO
-- [ ] *Mobile Compatibility*
-    - [ ] Image selection UI
-    - [ ] Image Maker
-    - [ ] Results display (search & main page)
-    - [ ] Discovery
-    - [ ] Navbar collapseable
+- [x] *Mobile Compatibility*
+    - [x] Image Maker
+    - [x] Results display (search & main page)
+    - [x] Discovery
+    - [x] Navbar collapseable
 - [x] Search
     - [x] Basic Functionality
     - [x] [compatibility] Filtering

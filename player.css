@@ -79,14 +79,11 @@
   justify-content: center;
   align-items: center;
 }
-
-/* Info modal (dark glass with blue border + yellow accent highlights) */
 #info {
   position: fixed;
   z-index: 10000;
   bottom: auto;
   top: 5%;
-  right: 10%;
   left: 10%;
   width: 80%;
   height: 80%;
@@ -96,10 +93,14 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   border: 1px solid rgba(30, 144, 255, 0.12);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(6px) saturate(120%);
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 /* Sidebar (darker surface, blue accent border on left) */
@@ -116,6 +117,12 @@
   padding: 12px;
   border-left: 4px solid rgba(30, 144, 255, 0.12);
   box-shadow: 0 8px 28px rgba(2, 6, 10, 0.7);
+  backdrop-filter: blur(6px) saturate(120%);
+}
+/* enable smooth slide transform when toggling on mobile */
+#sidebar {
+  transition: transform 320ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease;
+  will-change: transform, opacity;
 }
 
 /* radio-section – subtle card with blue accents */
@@ -125,7 +132,7 @@
   margin-bottom: 10px;
   padding: 12px;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
-  background-color: grey;
+  background-color: rgba(255,255,255,0.02);
 }
 .radio-section:hover {
   transform: translateY(-4px);
@@ -139,11 +146,7 @@
   border: 1px solid rgba(30, 144, 255, 0.2);
   border-radius: 8px;
   object-fit: cover;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(0, 0, 0, 0.06)
-  );
+  background-color: var(--glass);
   box-shadow: 0 6px 18px rgba(2, 8, 23, 0.6);
 }
 
@@ -182,6 +185,7 @@ a,
   text-decoration: none;
 }
 
+
 /* scrollbar (thin, dark theme) */
 #info::-webkit-scrollbar,
 #sidebar::-webkit-scrollbar,
@@ -208,18 +212,43 @@ body::-webkit-scrollbar-thumb {
 
 /* small responsive tweak */
 @media (max-width: 900px) {
+  /* On small screens show sidebar as a bottom drawer and tune sizes */
   #sidebar {
-    display: none;
+    display: block;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: 100%;
+    height: 38%;
+    border-radius: 12px 12px 0 0;
+    padding: 10px;
+    border-left: none;
+    border-top: 4px solid rgba(30, 144, 255, 0.12);
+  }
+  /* start hidden off-screen by translating down; `open` class slides it up */
+  #sidebar {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  #sidebar.open {
+    transform: translateY(0%);
+    opacity: 1;
+    pointer-events: auto;
   }
   #info {
     left: 4%;
     right: 4%;
     width: 92%;
     top: 6%;
+    height: 70%;
   }
 }
 #c {
   border: 3px solid #1e90ff;
+  max-width: 100%;
+  height: auto;
 }
 :checked + label {
   border: 3px solid #febe15;

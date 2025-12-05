@@ -26,40 +26,48 @@
   </head>
 
   <body>
-  <div class="navbar">
+  <link rel="stylesheet" href="nav.css">
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
         <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
         <span class="ml-2 has-text-weight-bold">Piclean</span>
       </a>
+      <a role="button" class="navbar-burger" id="navToggle" aria-label="menu" aria-expanded="false" data-target="navMenu" title="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end">
-      <a class="navbar-item" href="search.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-search"></i>
-          </span>
-          <span>Search</span>
-        </span></a>
-      <a class="navbar-item" href="discovery.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-th-large"></i>
-          </span>
-          <span>Discovery</span>
-        </span></a>
-      <a class="navbar-item" href="local.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span>Load Backups</span>
-        </span></a>
-      <a class="navbar-item" href="progress.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          <span>About</span>
-        </span></a>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <span>Search</span>
+          </span></a>
+        <a class="navbar-item" href="discovery.html"><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-th-large"></i>
+            </span>
+            <span>Discovery</span>
+          </span></a>
+        <a class="navbar-item" href="local.html"><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span>Load Backups</span>
+          </span></a>
+        <a class="navbar-item" href="progress.html"><span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>About</span>
+          </span></a>
+      </div>
     </div>
-  </div>
+  </nav>
     <section class="hero">
       <div class="hero-body">
         <div class="has-text-centered container">
@@ -203,5 +211,6 @@
         </p>
       </div>
     </footer>
+    <script src="nav.js" defer></script>
   </body>
 </html>

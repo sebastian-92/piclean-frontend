@@ -8,6 +8,7 @@ const makerId = urlParams.get("id");
 const backend = localStorage.getItem("backend") ?? "https://api.piclean.us";
 // i really dislike cors >:(
 const cdn = localStorage.getItem("cdn") ?? "https://cdn.picrew.me";
+const corsProxy = localStorage.getItem("corsProxy") ?? "https://cors-anywhere.cbass92.org";
 console.log("Using backend:", backend);
 console.log("Using cdn:", cdn);
 function deselectRadios(groupName) {
@@ -44,15 +45,15 @@ function loadById(id) {
 }
 function setupPicrew() {
   try {
-  const info = document.getElementById("info");
-  // this constructs the info box popup
-  document.title = `Piclean - ${window.data.imageMakerInfo.title}`;
-  info.innerHTML = `
+    const info = document.getElementById("info");
+    // this constructs the info box popup
+    document.title = `Piclean - ${window.data.imageMakerInfo.title}`;
+    info.innerHTML = `
         <h1 class='title'>${window.data.imageMakerInfo.title}</h1>
-        <img class='desc_thumb' src='${window.isBackup && window.data.imageMakerInfo.icon_url ? window.zipLoaderInstance.extractAsBlobUrl(window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", "" ), 'image/png') : window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", cdn)
-        }' style="max-width:90%;max-height:300px;margin:10px 0;border-radius:10px;" />
+        <img class='desc_thumb' src='${window.isBackup && window.data.imageMakerInfo.icon_url ? window.zipLoaderInstance.extractAsBlobUrl(window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", ""), 'image/png') : window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", cdn)
+      }' style="max-width:90%;max-height:300px;margin:10px 0;border-radius:10px;" />
         <a class='author_credit' href="creator.html?id=${window.data.imageMakerInfo.creator_id
-    }">By ${window.data.imageMakerInfo.creator_name}</a>
+      }">By ${window.data.imageMakerInfo.creator_name}</a>
         <p class='content'>${window.data.imageMakerInfo.description_html}</p>
         <h3 class='license_header'>License</h3>
         <table class='license_table'>
@@ -63,27 +64,27 @@ function setupPicrew() {
           <tr>
         <td>Personal Use</td>
         <td><input class="checkbox" onclick="return false" type="checkbox" ${data.imageMakerInfo.can_personal_use ? "checked" : ""
-    }></td>
+      }></td>
           </tr>
           <tr>
         <td>Non-Commercial Use</td>
         <td><input class="checkbox" onclick="return false" type="checkbox" ${data.imageMakerInfo.can_non_commercial_use ? "checked" : ""
-    }></td>
+      }></td>
           </tr>
           <tr>
         <td>Commercial Use</td>
         <td><input class="checkbox" onclick="return false" type="checkbox" ${data.imageMakerInfo.can_commercial_use ? "checked" : ""
-    }></td>
+      }></td>
           </tr>
           <tr>
         <td>Derivative Works</td>
         <td><input class="checkbox" onclick="return false" type="checkbox" ${data.imageMakerInfo.can_derivative_works ? "checked" : ""
-    }></td>
+      }></td>
           </tr>
         </table>
         `;
-  // construct main canvas
-  let newmain = `
+    // construct main canvas
+    let newmain = `
         <canvas id="c" width="${window.data.config.w}" height="${window.data.config.h}" style="border:1px solid #000000;"></canvas>
         <br><button
         class="button is-success"
@@ -109,86 +110,86 @@ function setupPicrew() {
         <input class="ml-2 file-input" type="file" name="import-save" id="import-save" accept=".json" style="display:none;" />
 <button class="button is-link ml-2" id="export_button" onclick='exportData()'>Export Slot</button><br><button class="button is-warning mr-2" id="backup_button" onclick='backupPicrew(window.data)'>Backup Picrew</button><button class="button is-light" id="download_json_button" onclick='downloadJSON()'>Download Data JSON</button>
         `;
-  // construct sidebar selectors
-  let newselector = "";
-  for (const i of window.data.config.pList) {
-    // menu items are displayed in picrew
-    console.log(i.thumbUrl);
-    newselector += `<div class="radio-section"><img loading="lazy" src='${window.isBackup && i.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl(i.thumbUrl, 'image/png') : cdn + i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
-    var k = 0;
-    newselector += `<div class="mt-3" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">`;
-    for (const j of window.data.config.cpList[i.cpId]) {
-      newselector += `<label style="display: inline-flex; align-items: center; margin-right: 4px;"><input class="radio" type="radio" name="${i.lyrs[0]
-        }_slider" value="${k}" style="margin-right:2px;"${k == 0 ? " checked" : ""
-        }/><svg width="24" height="24" style="vertical-align: middle;"><rect style="fill:${j.cd
-        };" width="24" height="24" /></svg></label>`;
-      k++;
-    }
-    newselector += `</div>`;
-    newselector += `<br><label> Rotate (deg): <input class="input mb-2" type="number" value="0" id="${i.lyrs[0]}_r" name="${i.lyrs[0]}_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${i.lyrs[0]}_x" name="${i.lyrs[0]}_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${i.lyrs[0]}_y" name="${i.lyrs[0]}_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
-    // the slider changes the color/version of the item, equivalent to the color selector in picrew
-    // the x and y number inputs change the position of the item on the canvas
-    for (const j of i.items) {
-      console.log(isBackup)
-      // add radio selector to choose item
-      newselector += `<div style="display: inline-block; width: 54px; margin: 2px; text-align: center;">
+    // construct sidebar selectors
+    let newselector = "";
+    for (const i of window.data.config.pList) {
+      // menu items are displayed in picrew
+      console.log(i.thumbUrl);
+      newselector += `<div class="radio-section"><img loading="lazy" src='${window.isBackup && i.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl(i.thumbUrl, 'image/png') : cdn + i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
+      var k = 0;
+      newselector += `<div class="mt-3" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">`;
+      for (const j of window.data.config.cpList[i.cpId]) {
+        newselector += `<label style="display: inline-flex; align-items: center; margin-right: 4px;"><input class="radio" type="radio" name="${i.lyrs[0]
+          }_slider" value="${k}" style="margin-right:2px;"${k == 0 ? " checked" : ""
+          }/><svg width="24" height="24" style="vertical-align: middle;"><rect style="fill:${j.cd
+          };" width="24" height="24" /></svg></label>`;
+        k++;
+      }
+      newselector += `</div>`;
+      newselector += `<br><label> Rotate (deg): <input class="input mb-2" type="number" value="0" id="${i.lyrs[0]}_r" name="${i.lyrs[0]}_r" value="0" style="width: 4em; margin-left: 10px;"></label><br><label> x: <input class="input" type="number" step="10" id="${i.lyrs[0]}_x" name="${i.lyrs[0]}_x" value="0" style="width: 4em; margin-left: 10px;"></label><label> y: <input class="input" type="number" step="10" id="${i.lyrs[0]}_y" name="${i.lyrs[0]}_y" value="0" style="width: 4em; margin-left: 10px;"></label><br>`;
+      // the slider changes the color/version of the item, equivalent to the color selector in picrew
+      // the x and y number inputs change the position of the item on the canvas
+      for (const j of i.items) {
+        console.log(isBackup)
+        // add radio selector to choose item
+        newselector += `<div style="display: inline-block; width: 54px; margin: 2px; text-align: center;">
               <label>
               <input type="radio" real-id="${i.pId}-images" name="${i.lyrs[0]
-        }" value="${j.itmId}">
-              <img class="image is-50x50" style="display: block; margin: 0 auto;" src='${window.isBackup && j.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl(j.thumbUrl, 'image/png') : (cdn + j.thumbUrl ?? "//placehold.co/50x50")
-        }'>
+          }" value="${j.itmId}">
+              <img class="image is-50x50" style="display: block; margin: 0 auto; background-color: gray; border-radius: 8px;" src='${window.isBackup && j.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl(j.thumbUrl, 'image/png') : (cdn + j.thumbUrl ?? "//placehold.co/50x50")
+          }'>
               </label>
             </div>`;
-    }
-    newselector += `</div>`;
-  }
-  // display all the stuff and set content
-  document.getElementById("sidebar").style.display = "block";
-  document.getElementById("selector").innerHTML =
-    newselector +
-    "<button onclick='document.getElementById(\"selector\").reset();render()' class='button is-danger is-small' type='button'>Reset All</button><br>";
-  document.getElementById("main").innerHTML = newmain;
-  document.getElementById("main").style.display = "block";
-  // import save function goes here because javascript was being stupid
-  document.getElementById("import-save").onchange = function () {
-    console.log("Importing save...");
-    const file = document.getElementById("import-save").files[0];
-    if (!file) {
-      return;
-    }
-    document.getElementById("import-save").value = "";
-    const reader = new FileReader();
-    reader.onload = function () {
-      try {
-        const importedData = JSON.parse(reader.result);
-        loadData(importedData);
-        render();
-      } catch (error) {
-        alert("Failed to import data: " + error.message);
       }
-    };
-    reader.readAsText(file);
-  };
-  // fill default values according to zeroConf
-  for (const [key, val] of Object.entries(data.config.zeroConf)) {
-    if (val.itmId == 0) continue;
-    document
-      .querySelectorAll('[real-id="' + key + '-images"]')
-      .forEach((element) => {
-        if (element.type === "radio") {
-          if (element.value === String(val.itmId)) {
-            element.checked = true;
-            return;
-          }
+      newselector += `</div>`;
+    }
+    // display all the stuff and set content
+    // Sidebar visibility is controlled by CSS and the `.open` class for mobile animations
+    document.getElementById("selector").innerHTML =
+      newselector +
+      "<button onclick='document.getElementById(\"selector\").reset();render()' class='button is-danger is-small' type='button'>Reset All</button><br>";
+    document.getElementById("main").innerHTML = newmain;
+    document.getElementById("main").style.display = "block";
+    // import save function goes here because javascript was being stupid
+    document.getElementById("import-save").onchange = function () {
+      console.log("Importing save...");
+      const file = document.getElementById("import-save").files[0];
+      if (!file) {
+        return;
+      }
+      document.getElementById("import-save").value = "";
+      const reader = new FileReader();
+      reader.onload = function () {
+        try {
+          const importedData = JSON.parse(reader.result);
+          loadData(importedData);
+          render();
+        } catch (error) {
+          alert("Failed to import data: " + error.message);
         }
-      });
-  }
-  info.style.display = "flex";
-  document.getElementById("loading").style.display = "none";
-  render();
+      };
+      reader.readAsText(file);
+    };
+    // fill default values according to zeroConf
+    for (const [key, val] of Object.entries(data.config.zeroConf)) {
+      if (val.itmId == 0) continue;
+      document
+        .querySelectorAll('[real-id="' + key + '-images"]')
+        .forEach((element) => {
+          if (element.type === "radio") {
+            if (element.value === String(val.itmId)) {
+              element.checked = true;
+              return;
+            }
+          }
+        });
+    }
+    info.style.display = "flex";
+    document.getElementById("loading").style.display = "none";
+    render();
   } catch (e) {
     console.error("Error setting up picrew:", e);
-    alert("An error occurred while setting up the Picrew. "+e.message);
+    alert("An error occurred while setting up the Picrew. " + e.message);
   }
 }
 // credit to https://stackoverflow.com/questions/32468969 for this function
@@ -314,9 +315,35 @@ document.getElementById("selector").addEventListener("change", (event) => {
   // render when selected options change
   render();
 });
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  if (!sb) return;
+  sb.classList.toggle('open');
+}
+
+function toggleInfo(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const info = document.getElementById('info');
+  if (!info) return;
+  info.style.display = info.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// mobile menu button hookup (if present)
+document.getElementById('mobileMenuBtn')?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleSidebar();
+});
+
 document.addEventListener("click", function (event) {
-  // dismiss info box on click
-  document.getElementById("info").style.display = "none";
+  // don't auto-close when clicking inside the info panel or the sidebar or using the mobile button
+  const info = document.getElementById("info");
+  const sidebar = document.getElementById("sidebar");
+  if ((info && info.contains(event.target)) || (sidebar && sidebar.contains(event.target)) || event.target.id === 'mobileMenuBtn' || (event.target.closest && event.target.closest('#mobileMenuBtn'))) {
+    return;
+  }
+  if (info) info.style.display = "none";
+  // on small screens, clicking outside should also hide the sidebar
+  if (window.innerWidth <= 900 && sidebar && !sidebar.contains(event.target)) sidebar.classList.remove('open');
 });
 // walks through a json object and calls callback on every string found
 function walk(obj, callback) {
@@ -352,42 +379,41 @@ async function backupPicrew(jsonData) {
   backupButton.innerText = "Backing up...";
 
   const backupZip = new JSZip();
-  const urlSet = new Map(); // path -> url to avoid duplicates
+  const urlSet = new Set(); // store unique urls
 
   // collect unique URLs/paths
   walk(jsonData, (str) => {
     try {
-      if (typeof str !== "string") return;
       if (str.startsWith("/")) {
-        const url = cdn + str;
-        // keep path as original str (with leading slash) to match previous behavior
-        if (!urlSet.has(str)) urlSet.set(str, url);
+        const url = corsProxy + "/" +cdn.replace("https://", "") + str;
+        urlSet.add(url);
       } else if (str.startsWith("https://cdn.picrew.me")) {
-        const path = str.replace("https://cdn.picrew.me", "");
-        if (!urlSet.has(path)) urlSet.set(path, str);
+        urlSet.add(str.replace("https://cdn.picrew.me", corsProxy +"/"+ cdn.replace("https://", "")));
       }
     } catch (e) {
       console.error("Error while collecting urls:", e);
     }
   });
 
-  const entries = Array.from(urlSet.entries()).map(([path, url]) => ({ path, url }));
-  const batchSize = 500; 
+  const entries = Array.from(urlSet).map((url) => ({ url }));
+  const batchSize = 500;
   // I need to batch to avoid overwhelming the loser chrome users
+  // stupid chrome doesn't like too many concurrent fetches
+  // 500 should be fine, because i'm pretty sure the largest image size is 400x400
   // unnecessary on firefox but whatever
 
   for (let i = 0; i < entries.length; i += batchSize) {
     const batch = entries.slice(i, i + batchSize);
     console.log(`Fetching batch ${Math.floor(i / batchSize) + 1} (${batch.length} files)...`);
-    const fetchPromises = batch.map(async ({ path, url }) => {
+    const fetchPromises = batch.map(async ({ url }) => {
       try {
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
         const blob = await res.blob();
-        return { path, blob };
+        return { url, blob };
       } catch (err) {
         console.error("There has been a problem with your fetch operation:", err);
-        return { path, error: err };
+        return { url, error: err };
       }
     });
 
@@ -398,7 +424,19 @@ async function backupPicrew(jsonData) {
         const value = r.value;
         if (value && !value.error) {
           try {
-            backupZip.file(value.path, value.blob);
+            // derive a safe filename from the URL path and strip leading slashes
+            const urlObj = new URL(value.url);
+            let filename = urlObj.pathname.replace(/^\/+/, "");
+            // avoid collisions by appending a counter if needed
+            let counter = 1;
+            const base = filename;
+            while (backupZip.file(filename)) {
+              const dot = base.lastIndexOf(".");
+              filename = dot === -1
+                ? `${base}_${counter++}`
+                : `${base.slice(0, dot)}_${counter++}${base.slice(dot)}`;
+            }
+            backupZip.file(filename, value.blob);
           } catch (e) {
             console.error("Failed to add file to zip:", e);
           }

@@ -13,7 +13,7 @@ function loadDiscover() {
     .then((data) => {
       var panelhtml = "";
       data.forEach((item) => {
-        panelhtml += `<div class="cell"><a href="player.html?id=${item.id}"><img src="${cdn}/${item.thumb}" class="image is-square" width=200 height=200></a></div>`;
+        panelhtml += `<div class="cell"><a href="player.html?id=${item.id}"><img src="${cdn}/${item.thumb}" class="responsive-thumb" alt="${item.title}"></a></div>`;
       });
       document.getElementById("discover-panel").innerHTML = panelhtml;
     });
@@ -27,9 +27,7 @@ function loadSort(type, targetElem) {
       data.results.slice(0, 8).forEach((item) => {
         panelhtml += `<a href="player.html?id=${item.id}">
         <div class="cell">
-            <img class="image is-square" width="200" height="200" src="${
-              item.image
-            }">
+            <img class="responsive-thumb" src="${item.image}" alt="${item.title}">
             <p>${item.title}</p>
             <p class="author_credit">By ${item.creator}</p>
             <p class="licenses">${item.licenses.join(", ")}</p>

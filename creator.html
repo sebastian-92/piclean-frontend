@@ -15,59 +15,107 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       * {
         font-family: "Quicksand", sans-serif;
+        box-sizing: border-box;
       }
+      /* responsive navbar: show only icons on small screens, keep text on tablet+ */
+      .navbar .icon-text .icon { font-size: 1.1rem; }
+      .navbar .icon-text .is-hidden-mobile { display: inline; }
+      @media (max-width: 640px) {
+        .navbar { padding: 0.5rem 0.75rem; }
+        .navbar .icon-text .is-hidden-mobile { display: none; } /* hide labels on mobile */
+        .navbar .navbar-item { padding: 0.45rem; }
+      }
+
+      /* responsive hero title */
+      .hero .creator-title { font-weight: 700; }
+      @media (min-width: 769px) {
+        .hero .creator-title { font-size: 2.0rem; } /* desktop */
+      }
+      @media (max-width: 768px) {
+        .hero .creator-title { font-size: 1.25rem; } /* mobile */
+      }
+
+      /* responsive grid: auto-fit cards, cap max column width so items don't stretch too tall */
+      .fixed-grid .grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 220px));
+        justify-content: center;
+      }
+      .fixed-grid .cell {
+        background: #fff;
+        padding: 0.5rem;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .fixed-grid .cell p { margin: 0.25rem 0; font-size: 0.9rem; }
+
+      /* responsive thumbnails: use aspect-ratio and cap height */
+      .responsive-thumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+        background: #efefef;
+        max-height: 220px;
+      }
+      /* small tweak for author/license line overflow */
+      .author_credit, .licenses { color: #666; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     </style>
   </head>
   <body>
-  <div class="navbar">
+  <link rel="stylesheet" href="nav.css">
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
         <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
         <span class="ml-2 has-text-weight-bold">Piclean</span>
       </a>
+      <a role="button" class="navbar-burger" id="navToggle" aria-label="menu" aria-expanded="false" data-target="navMenu" title="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end">
-      <a class="navbar-item" href="search.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-search"></i>
-          </span>
-          <span>Search</span>
-        </span></a>
-      <a class="navbar-item" href="discovery.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-th-large"></i>
-          </span>
-          <span>Discovery</span>
-        </span></a>
-      <a class="navbar-item" href="local.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span>Load Backups</span>
-        </span></a>
-      <a class="navbar-item" href="progress.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          <span>About</span>
-        </span></a>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-search"></i></span>
+            <span class="">Search</span>
+          </span></a>
+        <a class="navbar-item" href="discovery.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-th-large"></i></span>
+            <span class="">Discovery</span>
+          </span></a>
+        <a class="navbar-item" href="local.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-upload"></i></span>
+            <span class="">Load Backups</span>
+          </span></a>
+        <a class="navbar-item" href="progress.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-info-circle"></i></span>
+            <span class="">About</span>
+          </span></a>
+      </div>
     </div>
-  </div>
+  </nav>
     <div class="hero is-dark is-one-quarter">
       <div class="hero-body">
         <div class="container has-text-centered">
           <section class="section">
             <div class="content">
-              <p class="is-size-1 has-text-weight-bold">Creator: <strong id="creator-name"></strong></p>
+              <p class="creator-title has-text-weight-bold">Creator: <strong id="creator-name"></strong></p>
             </div>
           </section>
         </div>
       </div>
     </div>
-    <div class="container mt-3">
+        <div class="container mt-3">
+          <script src="nav.js" defer></script>
       <div class="fixed-grid has-5-cols">
         <div class="grid" id="crews"></div>
       </div>

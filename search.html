@@ -15,47 +15,129 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
     />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       * {
+        box-sizing: border-box;
         font-family: "Quicksand", sans-serif;
+      }
+
+      .navbar .icon-text .icon {
+        font-size: 1.05rem;
+      }
+      .navbar .icon-text .is-hidden-mobile {
+        display: inline;
+      }
+      @media (max-width: 640px) {
+        .navbar .icon-text .is-hidden-mobile {
+          display: none;
+        }
+        .navbar .navbar-item {
+          padding: 0.45rem;
+        }
+      }
+
+      /* filters: flex wrap and responsive sizing */
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 0 20px;
+      }
+      .filters .select,
+      .filters .button,
+      .filters .input {
+        flex: 0 1 auto;
+        min-width: 120px;
+      }
+      @media (max-width: 640px) {
+        .filters {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .filters .select,
+        .filters .button {
+          width: 100%;
+        }
+        #searchButton {
+          width: 100%;
+        }
+      }
+
+      /* grid: responsive auto-fit, cap column max width to avoid overly tall squares */
+      .fixed-grid .grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 220px));
+        justify-content: center;
+      }
+      .fixed-grid .cell {
+        background: #fff;
+        padding: 0.5rem;
+        border-radius: 6px;
+        text-align: center;
+      }
+      .fixed-grid .cell p {
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+      }
+
+      /* responsive square thumbnail using aspect-ratio and max-height */
+      .responsive-thumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+        max-height: 220px;
+        background: #efefef;
+      }
+      .author_credit,
+      .licenses {
+        color: #666;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     </style>
   </head>
   <body>
-  <div class="navbar">
+    <link rel="stylesheet" href="nav.css">
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
         <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
         <span class="ml-2 has-text-weight-bold">Piclean</span>
       </a>
+      <a role="button" class="navbar-burger" id="navToggle" aria-label="menu" aria-expanded="false" data-target="navMenu" title="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end">
-      <a class="navbar-item" href="search.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-search"></i>
-          </span>
-          <span>Search</span>
-        </span></a>
-      <a class="navbar-item" href="discovery.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-th-large"></i>
-          </span>
-          <span>Discovery</span>
-        </span></a>
-      <a class="navbar-item" href="local.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span>Load Backups</span>
-        </span></a>
-      <a class="navbar-item" href="progress.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          <span>About</span>
-        </span></a>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-search"></i></span>
+            <span class="">Search</span>
+          </span></a>
+        <a class="navbar-item" href="discovery.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-th-large"></i></span>
+            <span class="">Discovery</span>
+          </span></a>
+        <a class="navbar-item" href="local.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-upload"></i></span>
+            <span class="">Load Backups</span>
+          </span></a>
+        <a class="navbar-item" href="progress.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-info-circle"></i></span>
+            <span class="">About</span>
+          </span></a>
+      </div>
     </div>
-  </div>
+  </nav>
     <div class="hero is-dark mb-4">
       <div class="hero-body">
         <div class="container has-text-centered">
@@ -76,9 +158,9 @@
           placeholder="Search for image makers..."
         />
       </div>
-      <div class="filters mt-3 mx-3">
+      <div class="filters mt-3" style="margin-bottom: 8px">
         <button
-          class="button is-success is-left mr-3"
+          class="button is-success is-left"
           id="searchButton"
           onclick="search()"
           role="button"
@@ -94,28 +176,27 @@
             <option value="4">Sort: Oldest</option>
           </select>
         </div>
-        <div class="select is-info" style="margin-left: 10px">
+        <div class="select is-info">
           <select id="type">
             <option value="3">Search: Full text</option>
             <option value="1">Search: Tags- Fuzzy</option>
             <option value="2">Search: Tags- Exact</option>
           </select>
         </div>
-        <div class="select is-info" style="margin-left: 10px">
+        <div class="select is-info">
           <select id="cs">
             <option value="">Canvas Size: Any</option>
             <option value="1">Canvas Size: 1:1</option>
             <option value="100">Canvas Size: 16:9</option>
           </select>
         </div>
-        <div class="select is-info" style="margin-left: 10px">
+        <div class="select is-info">
           <select id="lang">
             <option value="en">Language: English</option>
             <option value="ja">Language: Japanese</option>
           </select>
         </div>
-
-        <div class="select is-info" style="margin-left: 10px">
+        <div class="select is-info">
           <select id="imt">
             <option value="">Image Type: Any</option>
             <option value="1">Image Type: Dress Up</option>
@@ -151,6 +232,7 @@
         <button class="button is-loading is-white is-large"></button>
       </div>
     </div>
+    <script src="nav.js" defer></script>
     <script src="search.js"></script>
   </body>
 </html>

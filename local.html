@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Piclean - Load Backup</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
@@ -11,44 +12,59 @@
     * {
       font-family: "Quicksand", sans-serif;
     }
+    /* Responsive tweaks for mobile */
+    @media (max-width: 768px) {
+      .hero.is-one-quarter .hero-body { padding: 1.25rem 1rem; }
+      input#picrew-id.input { width: 100%; }
+      .button.is-fullwidth { display: block; width: 100%; }
+      /* Make crew boxes stack and buttons full width */
+      #crews { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+      #crews .box { display: flex; flex-direction: column; align-items: stretch; }
+      #crews .box .button { width: 100%; margin-top: 0.5rem; }
+      #crews .box a.has-text-weight-bold { display: block; margin-bottom: 0.5rem; }
+    }
+    /* Small improvements for narrow but not tiny screens */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      #crews { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 
 <body>
-  <div class="navbar">
+  <link rel="stylesheet" href="nav.css">
+  <nav class="navbar site-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
         <img src="favicon.ico" alt="Piclean Logo" width="28" height="28" />
         <span class="ml-2 has-text-weight-bold">Piclean</span>
       </a>
+      <a role="button" class="navbar-burger" id="navToggle" aria-label="menu" aria-expanded="false" data-target="navMenu" title="Menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end">
-      <a class="navbar-item" href="search.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-search"></i>
-          </span>
-          <span>Search</span>
-        </span></a>
-      <a class="navbar-item" href="discovery.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-th-large"></i>
-          </span>
-          <span>Discovery</span>
-        </span></a>
-      <a class="navbar-item" href="local.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span>Load Backups</span>
-        </span></a>
-      <a class="navbar-item" href="progress.html"><span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          <span>About</span>
-        </span></a>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="search.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-search"></i></span>
+            <span class="">Search</span>
+          </span></a>
+        <a class="navbar-item" href="discovery.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-th-large"></i></span>
+            <span class="">Discovery</span>
+          </span></a>
+        <a class="navbar-item" href="local.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-upload"></i></span>
+            <span class="">Load Backups</span>
+          </span></a>
+        <a class="navbar-item" href="progress.html"><span class="icon-text">
+            <span class="icon"><i class="fas fa-info-circle"></i></span>
+            <span class="">About</span>
+          </span></a>
+      </div>
     </div>
-  </div>
+  </nav>
   <div class="hero is-dark is-one-quarter">
     <div class="hero-body">
       <div class="container has-text-centered">
@@ -61,8 +77,8 @@
     </div>
   </div>
   <div class="container mt-3">
-    <input type="text" id="picrew-id" class="input is-medium mb-3" placeholder="Enter Picrew ID (Can be anything)" />
-    <button id="file-load" class="button is-primary">
+    <input type="text" id="picrew-id" class="input is-medium mb-3 is-fullwidth" placeholder="Enter Picrew ID (Can be anything)" />
+    <button id="file-load" class="button is-primary is-fullwidth">
       <span class="icon">
         <i class="fas fa-upload"></i>
       </span>
@@ -74,6 +90,7 @@
       <div class="grid" id="crews"></div>
     </div>
   </div>
+  <script src="nav.js" defer></script>
   <script src="scripts/jszip.min.js"></script>
   <script src="scripts/localforage.min.js"></script>
   <script>

@@ -9,16 +9,14 @@ const limit = 30;
 let isLoading = false;
 function renderImages(images) {
   images.forEach((image) => {
-    const imgDiv = document.createElement("div");
-    imgDiv.className = "cell";
-    imgDiv.innerHTML = `
+    const wrapper = document.createElement("div");
+    wrapper.className = "cell";
+    wrapper.innerHTML = `
       <a href="player.html?id=${image.id}">
-        <div class="cell">
-            <img class="image is-square" width="200" height="200" src="${cdn + '/' +image.thumb}">
-        </div>
+        <img class="responsive-thumb" src="${cdn}/${image.thumb}" alt="${image.id}">
       </a>
     `;
-    imageContainer.appendChild(imgDiv);
+    imageContainer.appendChild(wrapper);
   });
 }
 async function fetchImages(page, limit) {
