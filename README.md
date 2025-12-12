@@ -52,6 +52,7 @@
     at render (player.js:245:14)`
     - same error on 2773995 w/ body
     - let me know if it happens!
+- Filtering Issue with Licenses
 
 
 ## LICENSE
