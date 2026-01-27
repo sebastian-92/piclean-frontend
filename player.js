@@ -50,7 +50,7 @@ function setupPicrew() {
     document.title = `Piclean - ${window.data.imageMakerInfo.title}`;
     info.innerHTML = `
         <h1 class='title'>${window.data.imageMakerInfo.title}</h1>
-        <img class='desc_thumb' src='${window.isBackup && window.data.imageMakerInfo.icon_url ? window.zipLoaderInstance.extractAsBlobUrl(window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", ""), 'image/png') : window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", cdn)
+        <img class='desc_thumb' src='${window.isBackup && window.data.imageMakerInfo.icon_url ? window.zipLoaderInstance.extractAsBlobUrl(window.data.imageMakerInfo.icon_url.replace("https://", ""), 'image/png') : window.data.imageMakerInfo.icon_url.replace("https://cdn.picrew.me", cdn)
       }' style="max-width:90%;margin:10px 0;border-radius:10px;" />
         <a class='author_credit' href="creator.html?id=${window.data.imageMakerInfo.creator_id
       }">By ${window.data.imageMakerInfo.creator_name}</a>
@@ -115,7 +115,7 @@ function setupPicrew() {
     for (const i of window.data.config.pList) {
       // menu items are displayed in picrew
       console.log(i.thumbUrl);
-      newselector += `<div class="radio-section"><img loading="lazy" src='${window.isBackup && i.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl(i.thumbUrl, 'image/png') : cdn + i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
+      newselector += `<div class="radio-section"><img loading="lazy" src='${window.isBackup && i.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl("cdn.picrew.me" + i.thumbUrl, 'image/png') : cdn + i.thumbUrl}' class="section-thumb"><br><p>${i.pNm}</p><button class="button is-info is-small" onclick="deselectRadios('${i.lyrs[0]}')" type="button">Clear radios</button><br>`;
       var k = 0;
       newselector += `<div class="mt-3" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">`;
       for (const j of window.data.config.cpList[i.cpId]) {
@@ -136,7 +136,7 @@ function setupPicrew() {
               <label>
               <input type="radio" real-id="${i.pId}-images" name="${i.lyrs[0]
           }" value="${j.itmId}">
-              <img class="image is-50x50" style="display: block; margin: 0 auto; background-color: gray; border-radius: 8px;" src='${window.isBackup && j.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl(j.thumbUrl, 'image/png') : (cdn + j.thumbUrl ?? "//placehold.co/50x50")
+              <img class="image is-50x50" style="display: block; margin: 0 auto; background-color: gray; border-radius: 8px;" src='${window.isBackup && j.thumbUrl ? window.zipLoaderInstance.extractAsBlobUrl("cdn.picrew.me" + j.thumbUrl, 'image/png') : (cdn + j.thumbUrl ?? "//placehold.co/50x50")
           }'>
               </label>
             </div>`;
@@ -242,7 +242,7 @@ async function render() {
       const yVal = form.get(String(lyrKey) + "_y");
       const rotation = form.get(String(lyrKey) + "_r");
       for (const imageKey of imgUrls) {
-        img.src = window.isBackup ? window.zipLoaderInstance.extractAsBlobUrl(imageKey, 'image/png') : cdn + imageKey;
+        img.src = window.isBackup ? window.zipLoaderInstance.extractAsBlobUrl("cdn.picrew.me" + imageKey, 'image/png') : cdn + imageKey;
         await new Promise((resolve) => {
           // wait for image to load before drawing, and make sure we draw in order
           img.onload = function () {
